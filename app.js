@@ -171,10 +171,8 @@ const { data, error } = await client
     .select('*')
 
 
-const { data1, error1 } = await client
-    .from('Ture-False')
-    .select('*')
-data1.forEach(truequiz => {
+
+data.forEach(quiz => {
 
     showQuestion.innerHTML += `
     
