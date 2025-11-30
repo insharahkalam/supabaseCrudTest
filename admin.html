@@ -39,10 +39,10 @@
         <label class="block font-semibold mb-2">Select Question Type:</label>
         <select id="qType" onchange="showForm()" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none 
             focus:ring-2 focus:ring-[#7ab4ff] mb-6">
-            <option value="">-- Select Type --</option>
+            <option value=""> Select Type </option>
             <option value="multiple">Multiple Choice</option>
             <option value="tf">True / False</option>
-            <option value="data">Data (Info Only)</option>
+          
         </select>
 
         <!-- Multiple Choice Form -->
@@ -114,37 +114,17 @@
             </button>
         </div>
 
-        <!-- Data Only Form -->
-        <div id="dataForm" class="hidden bg-[#132a47] p-6 rounded-xl mb-6 shadow-md">
-            <label class="font-semibold mb-2 block">Add a comment</label>
-            <textarea id="dataComment" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none 
-                focus:ring-2 focus:ring-[#7ab4ff]"></textarea>
-
-            <p class="text-[#88a4c8] mt-3 text-sm">
-                *This question is informational only. It has no correct answer.*
-            </p>
-            <!-- Save Button -->
-            <button id="saveBtn2"
-                class="bg-[#1c75ff] mt-4 hover:bg-[#0059d6] transition-all font-semibold py-3 px-6 rounded-lg w-full">
-                Save Question
-            </button>
-        </div>
-
-
-
     </div>
 
     <script>
         function showForm() {
             document.getElementById("multipleForm").classList.add("hidden");
             document.getElementById("tfForm").classList.add("hidden");
-            document.getElementById("dataForm").classList.add("hidden");
 
             const type = document.getElementById("qType").value;
 
             if (type === "multiple") document.getElementById("multipleForm").classList.remove("hidden");
             if (type === "tf") document.getElementById("tfForm").classList.remove("hidden");
-            if (type === "data") document.getElementById("dataForm").classList.remove("hidden");
         }
     </script>
 
