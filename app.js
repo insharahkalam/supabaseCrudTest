@@ -31,7 +31,7 @@ btn && btn.addEventListener("click", async (e) => {
         username.value = ""
         email.value = ""
         password.value = ""
-        window.location.href = "login.html"
+        window.location.href = "home.html"
     } else {
         console.log("User register error!====", error);
 
@@ -75,3 +75,191 @@ loginBtn && loginBtn.addEventListener("click", async (e) => {
 
 
 })
+
+
+
+// // ===========MLTIPLE CHOOSE======
+
+// const multipleQuestions = document.getElementById("multipleQuestions")
+// const optionA = document.getElementById("optionA")
+// const optionB = document.getElementById("optionB")
+// const optionC = document.getElementById("optionC")
+// const optionD = document.getElementById("optionD")
+// const multipleCorrect = document.getElementById("multipleCorrect")
+// const saveBtn = document.getElementById("saveBtn")
+
+// if (multipleForm) {
+//     console.log(multipleForm);
+    
+//     saveBtn && saveBtn.addEventListener("click", async (e) => {
+//         e.preventDefault()
+
+//         const { error } = await client
+//             .from('MultipleQuestion')
+//             .insert({ Question: multipleQuestions.value, Option1: optionA.value, Option2: optionB.value, Option3: optionC.value, Option4: optionD.value, CorrectAnswer: multipleCorrect.value })
+
+//         if (error) {
+//             console.log("multiple error", error);
+//         } else {
+//             alert("data insert seccessfully!");
+//             multipleQuestions.value = ""
+//             optionA.value = ""
+//             optionB.value = ""
+//             optionC.value = ""
+//             optionD.value = ""
+//             multipleCorrect.value = ""
+
+//         }
+//     })
+
+// }
+// else if (tfForm) {
+//     // =========true/false=======
+//     const truefalseQuestion = document.getElementById("truefalseQuestion")
+//     const tfCorrect = document.getElementById("tfCorrect")
+//     const trueSaveBtn = document.getElementById("saveBtn")
+
+
+//     trueSaveBtn && trueSaveBtn.addEventListener("click", async (e) => {
+//         e.preventDefault()
+
+
+//         const { error } = await client
+//             .from('Ture-False')
+//             .insert({ Question: truefalseQuestion.value, CorrectAnswer: tfCorrect.value })
+
+
+//         if (error) {
+//             console.log(error, "true false error");
+//         } else {
+//             alert("true false added successfully!!")
+//             truefalseQuestion.value = ""
+//             tfCorrect.value = ""
+//         }
+
+
+
+//     })
+
+// } else {
+
+//     // ========data comment=======
+
+//     const dataComment = document.getElementById("dataComment")
+//     const dataBtn = dataBtn.getElementById("saveBtn")
+//     dataBtn && dataBtn.addEventListener("click", async (e) => {
+//         e.preventDefault()
+
+
+
+//         const { error } = await client
+//             .from('AddComment')
+//             .insert({ Description: dataComment.value })
+
+//         if (error) {
+//             console.log(error, "data error");
+//         } else {
+//             alert("data added")
+//         }
+
+//     })
+// }
+
+
+
+
+// =========== MULTIPLE CHOICE ==========
+
+const multipleForm = document.getElementById("multipleForm")
+if (multipleForm) {
+
+    const multipleQuestions = document.getElementById("multipleQuestions")
+    const optionA = document.getElementById("optionA")
+    const optionB = document.getElementById("optionB")
+    const optionC = document.getElementById("optionC")
+    const optionD = document.getElementById("optionD")
+    const multipleCorrect = document.getElementById("multipleCorrect")
+    const saveMultipleBtn = document.getElementById("saveMultipleBtn")
+
+   saveMultipleBtn&& saveMultipleBtn.addEventListener("click", async (e) => {
+        e.preventDefault()
+
+        const { error } = await client
+            .from('MultipleQuestion')
+            .insert({
+                Question: multipleQuestions.value,
+                Option1: optionA.value,
+                Option2: optionB.value,
+                Option3: optionC.value,
+                Option4: optionD.value,
+                CorrectAnswer: multipleCorrect.value
+            })
+
+        if (error) {
+            console.log("multiple error", error)
+        } else {
+            alert("Multiple choice inserted successfully!")
+            multipleQuestions.value = ""
+            optionA.value = ""
+            optionB.value = ""
+            optionC.value = ""
+            optionD.value = ""
+            multipleCorrect.value = ""
+        }
+    })
+}
+
+
+// ============= TRUE / FALSE =============
+
+const tfForm = document.getElementById("tfForm")
+if (tfForm) {
+
+    const truefalseQuestion = document.getElementById("truefalseQuestion")
+    const tfCorrect = document.getElementById("tfCorrect")
+    const saveTfBtn = document.getElementById("saveTfBtn")
+
+   saveTfBtn&& saveTfBtn.addEventListener("click", async (e) => {
+        e.preventDefault()
+
+        const { error } = await client
+            .from('TrueFalse')
+            .insert({
+                Question: truefalseQuestion.value,
+                CorrectAnswer: tfCorrect.value
+            })
+
+        if (error) {
+            console.log("TF error", error)
+        } else {
+            alert("True/False added successfully!")
+            truefalseQuestion.value = ""
+            tfCorrect.value = ""
+        }
+    })
+}
+
+
+// ============ COMMENT FORM ============
+
+const commentForm = document.getElementById("commentForm")
+if (commentForm) {
+
+    const dataComment = document.getElementById("dataComment")
+    const saveCommentBtn = document.getElementById("saveCommentBtn")
+
+   saveCommentBtn&& saveCommentBtn.addEventListener("click", async (e) => {
+        e.preventDefault()
+
+        const { error } = await client
+            .from('AddComment')
+            .insert({ Description: dataComment.value })
+
+        if (error) {
+            console.log("comment error", error)
+        } else {
+            alert("Comment added!")
+            dataComment.value = ""
+        }
+    })
+}

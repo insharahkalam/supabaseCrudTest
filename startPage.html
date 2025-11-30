@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COVID-19 Survey</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                        url("https://images.unsplash.com/photo-1584036561566-baf8f5f1b144") 
+                        no-repeat center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 480px;
+            backdrop-filter: blur(6px);
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+
+        .start-btn {
+            background: #00d4ff;
+            color: black;
+            padding: 14px 32px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .start-btn:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>COVID-19 Survey</h1>
+        <p>Please click the button below to start the survey.</p>
+
+        <button class="start-btn" onclick="startSurvey()">Start Survey</button>
+    </div>
+
+    <script>
+        function startSurvey() {
+            window.location.href = "index.html";
+        }
+    </script>
+
+</body>
+</html>

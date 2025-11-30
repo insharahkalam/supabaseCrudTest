@@ -11,12 +11,140 @@
 
 
 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Survey Form</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Flowbite -->
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
+</head>
+
+<body class="bg-[#0b1a2d] text-white min-h-screen flex items-center justify-center p-5">
+
+    <div class="w-full max-w-xl bg-[#10233d] rounded-2xl shadow-xl p-8">
+
+        <h2 class="text-3xl font-bold text-center text-[#b7d1fd] mb-8">
+            Add Survey Question
+        </h2>
+
+        <!-- Select Question Type -->
+        <label class="block font-semibold mb-2">Select Question Type:</label>
+        <select id="qType" onchange="showForm()" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none 
+            focus:ring-2 focus:ring-[#7ab4ff] mb-6">
+            <option value="">-- Select Type --</option>
+            <option value="multiple">Multiple Choice</option>
+            <option value="tf">True / False</option>
+            <option value="data">Data (Info Only)</option>
+        </select>
+
+        <!-- Multiple Choice Form -->
+      <div id="multipleForm" class="hidden bg-[#132a47] p-6 rounded-xl mb-6 shadow-md max-w-4xl mx-auto">
+
+    <label class="font-semibold mb-2 block">Question:</label>
+    <textarea id="multipleQuestions" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff] mb-6"></textarea>
+
+    <div class="grid grid-cols-2 gap-8 mb-6">
+        <div>
+            <label class="font-semibold mb-2 block">Option A:</label>
+            <input type="text" id="optionA" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff]">
+        </div>
+
+        <div>
+            <label class="font-semibold mb-2 block">Option B:</label>
+            <input type="text" id="optionB" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff]">
+        </div>
+
+        <div>
+            <label class="font-semibold mb-2 block">Option C:</label>
+            <input type="text" id="optionC" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff]">
+        </div>
+
+        <div>
+            <label class="font-semibold mb-2 block">Option D:</label>
+            <input type="text" id="optionD" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff]">
+        </div>
+    </div>
+
+    <label class="font-semibold mb-2 block">Correct Answer:</label>
+    <select id="multipleCorrect" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff]">
+        <option value="A">Option A</option>
+        <option value="B">Option B</option>
+        <option value="C">Option C</option>
+        <option value="D">Option D</option>
+    </select>
+</div>
 
 
 
+        <!-- True/False Form -->
+        <div id="tfForm" class="hidden bg-[#132a47] p-6 rounded-xl mb-6 shadow-md">
+            <label class="font-semibold mb-2 block">Question:</label>
+            <textarea id="truefalseQuestion" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none 
+                focus:ring-2 focus:ring-[#7ab4ff] mb-4"></textarea>
 
+            <label class="font-semibold mb-2 block">Correct Answer:</label>
+            <select id="tfCorrect" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 
+                focus:ring-[#7ab4ff]">
+                <option value="True">True</option>
+                <option value="False">False</option>
+            </select>
+        </div>
+
+        <!-- Data Only Form -->
+        <div id="dataForm" class="hidden bg-[#132a47] p-6 rounded-xl mb-6 shadow-md">
+            <label class="font-semibold mb-2 block">Add a comment</label>
+            <textarea id="dataComment" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none 
+                focus:ring-2 focus:ring-[#7ab4ff]"></textarea>
+
+            <p class="text-[#88a4c8] mt-3 text-sm">
+                *This question is informational only. It has no correct answer.*
+            </p>
+        </div>
+
+        <!-- Save Button -->
+        <button id="saveBtn"
+            class="bg-[#1c75ff] hover:bg-[#0059d6] transition-all font-semibold py-3 px-6 rounded-lg w-full">
+            Save Question
+        </button>
+
+    </div>
+
+    <script>
+        function showForm() {
+            document.getElementById("multipleForm").classList.add("hidden");
+            document.getElementById("tfForm").classList.add("hidden");
+            document.getElementById("dataForm").classList.add("hidden");
+
+            const type = document.getElementById("qType").value;
+
+            if (type === "multiple") document.getElementById("multipleForm").classList.remove("hidden");
+            if (type === "tf") document.getElementById("tfForm").classList.remove("hidden");
+            if (type === "data") document.getElementById("dataForm").classList.remove("hidden");
+        }
+    </script>
+
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module" src="app.js"></script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module" src="app.js"></script>
 </body>
 
 </html>
