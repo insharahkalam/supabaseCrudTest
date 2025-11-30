@@ -45,41 +45,52 @@
         </select>
 
         <!-- Multiple Choice Form -->
-      <div id="multipleForm" class="hidden bg-[#132a47] p-6 rounded-xl mb-6 shadow-md max-w-4xl mx-auto">
+        <div id="multipleForm" class="hidden bg-[#132a47] p-6 rounded-xl mb-6 shadow-md max-w-4xl mx-auto">
 
-    <label class="font-semibold mb-2 block">Question:</label>
-    <textarea id="multipleQuestions" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff] mb-6"></textarea>
+            <label class="font-semibold mb-2 block">Question:</label>
+            <textarea id="multipleQuestions"
+                class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff] mb-6"></textarea>
 
-    <div class="grid grid-cols-2 gap-8 mb-6">
-        <div>
-            <label class="font-semibold mb-2 block">Option A:</label>
-            <input type="text" id="optionA" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff]">
+            <div class="grid grid-cols-2 gap-8 mb-6">
+                <div>
+                    <label class="font-semibold mb-2 block">Option A:</label>
+                    <input type="text" id="optionA"
+                        class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff]">
+                </div>
+
+                <div>
+                    <label class="font-semibold mb-2 block">Option B:</label>
+                    <input type="text" id="optionB"
+                        class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff]">
+                </div>
+
+                <div>
+                    <label class="font-semibold mb-2 block">Option C:</label>
+                    <input type="text" id="optionC"
+                        class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff]">
+                </div>
+
+                <div>
+                    <label class="font-semibold mb-2 block">Option D:</label>
+                    <input type="text" id="optionD"
+                        class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff]">
+                </div>
+            </div>
+
+            <label class="font-semibold mb-2 block">Correct Answer:</label>
+            <select id="multipleCorrect"
+                class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff]">
+                <option value="A">Option A</option>
+                <option value="B">Option B</option>
+                <option value="C">Option C</option>
+                <option value="D">Option D</option>
+            </select>
+            <!-- Save Button -->
+            <button id="saveBtn"
+                class="bg-[#1c75ff] mt-4 hover:bg-[#0059d6] transition-all font-semibold py-3 px-6 rounded-lg w-full">
+                Save Question
+            </button>
         </div>
-
-        <div>
-            <label class="font-semibold mb-2 block">Option B:</label>
-            <input type="text" id="optionB" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff]">
-        </div>
-
-        <div>
-            <label class="font-semibold mb-2 block">Option C:</label>
-            <input type="text" id="optionC" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff]">
-        </div>
-
-        <div>
-            <label class="font-semibold mb-2 block">Option D:</label>
-            <input type="text" id="optionD" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff]">
-        </div>
-    </div>
-
-    <label class="font-semibold mb-2 block">Correct Answer:</label>
-    <select id="multipleCorrect" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none focus:ring-2 focus:ring-[#7ab4ff]">
-        <option value="A">Option A</option>
-        <option value="B">Option B</option>
-        <option value="C">Option C</option>
-        <option value="D">Option D</option>
-    </select>
-</div>
 
 
 
@@ -95,6 +106,11 @@
                 <option value="True">True</option>
                 <option value="False">False</option>
             </select>
+            <!-- Save Button -->
+            <button id="saveBtn1"
+                class="bg-[#1c75ff] mt-4 hover:bg-[#0059d6] transition-all font-semibold py-3 px-6 rounded-lg w-full">
+                Save Question
+            </button>
         </div>
 
         <!-- Data Only Form -->
@@ -106,13 +122,14 @@
             <p class="text-[#88a4c8] mt-3 text-sm">
                 *This question is informational only. It has no correct answer.*
             </p>
+            <!-- Save Button -->
+            <button id="saveBtn2"
+                class="bg-[#1c75ff] mt-4 hover:bg-[#0059d6] transition-all font-semibold py-3 px-6 rounded-lg w-full">
+                Save Question
+            </button>
         </div>
 
-        <!-- Save Button -->
-        <button id="saveBtn"
-            class="bg-[#1c75ff] hover:bg-[#0059d6] transition-all font-semibold py-3 px-6 rounded-lg w-full">
-            Save Question
-        </button>
+
 
     </div>
 

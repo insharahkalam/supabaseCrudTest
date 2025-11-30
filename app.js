@@ -78,188 +78,131 @@ loginBtn && loginBtn.addEventListener("click", async (e) => {
 
 
 
-// // ===========MLTIPLE CHOOSE======
+// ===========MLTIPLE CHOOSE======
 
-// const multipleQuestions = document.getElementById("multipleQuestions")
-// const optionA = document.getElementById("optionA")
-// const optionB = document.getElementById("optionB")
-// const optionC = document.getElementById("optionC")
-// const optionD = document.getElementById("optionD")
-// const multipleCorrect = document.getElementById("multipleCorrect")
-// const saveBtn = document.getElementById("saveBtn")
+const multipleQuestions = document.getElementById("multipleQuestions")
+const optionA = document.getElementById("optionA")
+const optionB = document.getElementById("optionB")
+const optionC = document.getElementById("optionC")
+const optionD = document.getElementById("optionD")
+const multipleCorrect = document.getElementById("multipleCorrect")
+const saveBtn = document.getElementById("saveBtn")
 
-// if (multipleForm) {
-//     console.log(multipleForm);
+saveBtn && saveBtn.addEventListener("click", async (e) => {
+    e.preventDefault()
+
+    const { error } = await client
+        .from('MultipleQuestion')
+        .insert({ Question: multipleQuestions.value, Option1: optionA.value, Option2: optionB.value, Option3: optionC.value, Option4: optionD.value, CorrectAnswer: multipleCorrect.value })
+
+    if (error) {
+        console.log("multiple error", error);
+    } else {
+        alert("data insert seccessfully!");
+        multipleQuestions.value = ""
+        optionA.value = ""
+        optionB.value = ""
+        optionC.value = ""
+        optionD.value = ""
+        multipleCorrect.value = ""
+
+    }
+})
+
+
+
+// =========true/false=======
+const truefalseQuestion = document.getElementById("truefalseQuestion")
+const tfCorrect = document.getElementById("tfCorrect")
+const saveBtn1 = document.getElementById("saveBtn1")
+
+
+saveBtn1 && saveBtn1.addEventListener("click", async (e) => {
+    e.preventDefault()
+
+
+    const { error } = await client
+        .from('Ture-False')
+        .insert({ Question: truefalseQuestion.value, CorrectAnswer: tfCorrect.value })
+
+
+    if (error) {
+        console.log(error, "true false error");
+    } else {
+        alert("true false added successfully!!")
+        truefalseQuestion.value = ""
+        tfCorrect.value = ""
+    }
+})
+
+
+
+// ========data comment=======
+
+const dataComment = document.getElementById("dataComment")
+const saveBtn2 = document.getElementById("saveBtn2")
+saveBtn2 && saveBtn2.addEventListener("click", async (e) => {
+    e.preventDefault()
+
+
+
+    const { error } = await client
+        .from('AddComment')
+        .insert({ Description: dataComment.value })
+
+    if (error) {
+        console.log(error, "data error");
+    } else {
+        alert("data added")
+        dataComment.value = ""
+    }
+
+})
+
+
+// ============FETCH DATA===========
+
+
+const showQuestion = document.getElementById("showQuestion")
+const showtruefalseQuestion = document.getElementById("showtruefalseQuestion")
+
+const { data, error } = await client
+    .from('MultipleQuestion')
+    .select('*')
+
+
+const { data1, error1 } = await client
+    .from('Ture-False')
+    .select('*')
+data1.forEach(truequiz => {
+
+    showQuestion.innerHTML += `
     
-//     saveBtn && saveBtn.addEventListener("click", async (e) => {
-//         e.preventDefault()
+ <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+    <p id="question" class="text-lg font-semibold mb-6">${quiz.Question}</p>
 
-//         const { error } = await client
-//             .from('MultipleQuestion')
-//             .insert({ Question: multipleQuestions.value, Option1: optionA.value, Option2: optionB.value, Option3: optionC.value, Option4: optionD.value, CorrectAnswer: multipleCorrect.value })
+    <div class="mb-4">
+      <label class="flex items-center mb-2">
+        <input type="radio" name="answer" value="Paris" class="mr-2">
+        ${quiz.Option1}
+      </label>
+      <label class="flex items-center mb-2">
+        <input type="radio" name="answer" value="London" class="mr-2">
+        ${quiz.Option2}
+      </label>
+      <label class="flex items-center mb-2">
+        <input type="radio" name="answer" value="Rome" class="mr-2">
+        ${quiz.Option3}
+      </label>
+      <label class="flex items-center mb-2">
+        <input type="radio" name="answer" value="Berlin" class="mr-2">
+        ${quiz.Option4}
+      </label>
+    </div>
 
-//         if (error) {
-//             console.log("multiple error", error);
-//         } else {
-//             alert("data insert seccessfully!");
-//             multipleQuestions.value = ""
-//             optionA.value = ""
-//             optionB.value = ""
-//             optionC.value = ""
-//             optionD.value = ""
-//             multipleCorrect.value = ""
+    <button onclick="checkAnswer()" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded w-full">
+      Submit
+    </button>
 
-//         }
-//     })
-
-// }
-// else if (tfForm) {
-//     // =========true/false=======
-//     const truefalseQuestion = document.getElementById("truefalseQuestion")
-//     const tfCorrect = document.getElementById("tfCorrect")
-//     const trueSaveBtn = document.getElementById("saveBtn")
-
-
-//     trueSaveBtn && trueSaveBtn.addEventListener("click", async (e) => {
-//         e.preventDefault()
-
-
-//         const { error } = await client
-//             .from('Ture-False')
-//             .insert({ Question: truefalseQuestion.value, CorrectAnswer: tfCorrect.value })
-
-
-//         if (error) {
-//             console.log(error, "true false error");
-//         } else {
-//             alert("true false added successfully!!")
-//             truefalseQuestion.value = ""
-//             tfCorrect.value = ""
-//         }
-
-
-
-//     })
-
-// } else {
-
-//     // ========data comment=======
-
-//     const dataComment = document.getElementById("dataComment")
-//     const dataBtn = dataBtn.getElementById("saveBtn")
-//     dataBtn && dataBtn.addEventListener("click", async (e) => {
-//         e.preventDefault()
-
-
-
-//         const { error } = await client
-//             .from('AddComment')
-//             .insert({ Description: dataComment.value })
-
-//         if (error) {
-//             console.log(error, "data error");
-//         } else {
-//             alert("data added")
-//         }
-
-//     })
-// }
-
-
-
-
-// =========== MULTIPLE CHOICE ==========
-
-const multipleForm = document.getElementById("multipleForm")
-if (multipleForm) {
-
-    const multipleQuestions = document.getElementById("multipleQuestions")
-    const optionA = document.getElementById("optionA")
-    const optionB = document.getElementById("optionB")
-    const optionC = document.getElementById("optionC")
-    const optionD = document.getElementById("optionD")
-    const multipleCorrect = document.getElementById("multipleCorrect")
-    const saveMultipleBtn = document.getElementById("saveMultipleBtn")
-
-   saveMultipleBtn&& saveMultipleBtn.addEventListener("click", async (e) => {
-        e.preventDefault()
-
-        const { error } = await client
-            .from('MultipleQuestion')
-            .insert({
-                Question: multipleQuestions.value,
-                Option1: optionA.value,
-                Option2: optionB.value,
-                Option3: optionC.value,
-                Option4: optionD.value,
-                CorrectAnswer: multipleCorrect.value
-            })
-
-        if (error) {
-            console.log("multiple error", error)
-        } else {
-            alert("Multiple choice inserted successfully!")
-            multipleQuestions.value = ""
-            optionA.value = ""
-            optionB.value = ""
-            optionC.value = ""
-            optionD.value = ""
-            multipleCorrect.value = ""
-        }
-    })
-}
-
-
-// ============= TRUE / FALSE =============
-
-const tfForm = document.getElementById("tfForm")
-if (tfForm) {
-
-    const truefalseQuestion = document.getElementById("truefalseQuestion")
-    const tfCorrect = document.getElementById("tfCorrect")
-    const saveTfBtn = document.getElementById("saveTfBtn")
-
-   saveTfBtn&& saveTfBtn.addEventListener("click", async (e) => {
-        e.preventDefault()
-
-        const { error } = await client
-            .from('TrueFalse')
-            .insert({
-                Question: truefalseQuestion.value,
-                CorrectAnswer: tfCorrect.value
-            })
-
-        if (error) {
-            console.log("TF error", error)
-        } else {
-            alert("True/False added successfully!")
-            truefalseQuestion.value = ""
-            tfCorrect.value = ""
-        }
-    })
-}
-
-
-// ============ COMMENT FORM ============
-
-const commentForm = document.getElementById("commentForm")
-if (commentForm) {
-
-    const dataComment = document.getElementById("dataComment")
-    const saveCommentBtn = document.getElementById("saveCommentBtn")
-
-   saveCommentBtn&& saveCommentBtn.addEventListener("click", async (e) => {
-        e.preventDefault()
-
-        const { error } = await client
-            .from('AddComment')
-            .insert({ Description: dataComment.value })
-
-        if (error) {
-            console.log("comment error", error)
-        } else {
-            alert("Comment added!")
-            dataComment.value = ""
-        }
-    })
-}
+    `
+});
