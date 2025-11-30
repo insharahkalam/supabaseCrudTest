@@ -56,7 +56,7 @@ loginBtn && loginBtn.addEventListener("click", async (e) => {
         password: loginPassword.value,
     })
 
-    if (loginEmail.value === "admin123@gmail.com" && loginPassword.value === "admin123") {
+    if (loginEmail.value === "insharah@gmail.com" && loginPassword.value === "insharah123") {
         window.location.href = "admin.html"
     } else {
         if (data) {
