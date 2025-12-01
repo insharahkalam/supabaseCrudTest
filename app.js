@@ -121,49 +121,60 @@ saveBtn1 && saveBtn1.addEventListener("click", async (e) => {
     }
 })
 
-// ---------------- TIMER UI ----------------
-let timeLeft = 10 * 60;
-const timerBox = document.getElementById("timer");
 
-function updateTimer() {
-    let minutes = Math.floor(timeLeft / 60);
-    let seconds = timeLeft % 60;
 
-    timerBox.innerText = `Timer: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-
-    timeLeft--;
-
-    if (timeLeft < 0) {
-        localStorage.removeItem("token");
-        window.location.href = "login.html";
-    }
-}
-
-setInterval(updateTimer, 1000);
 
 // ---------------------- STEP CONTROL ----------------------
-let step = 1;
+try {
+    let step = 1;
 
-const showQuestion = document.getElementById("showQuestion")
-const showtruefalseQuestion = document.getElementById("showtruefalseQuestion")
-const showComment = document.getElementById("showComment")
+    const showQuestion = document.getElementById("showQuestion")
+    const showtruefalseQuestion = document.getElementById("showtruefalseQuestion")
+    const showComment = document.getElementById("showComment")
 
-// Start with step 1 only visible
-showQuestion.style.display = "block";
-showtruefalseQuestion.style.display = "none";
-showComment.style.display = "none";
+    // Start with step 1 only visible
+    showQuestion.style.display = "block";
+    showtruefalseQuestion.style.display = "none";
+    showComment.style.display = "none";
 
-function goToStep(newStep) {
-    step = newStep;
+    function goToStep(newStep) {
+        step = newStep;
 
-    showQuestion.style.display = step === 1 ? "block" : "none";
-    showtruefalseQuestion.style.display = step === 2 ? "block" : "none";
-    showComment.style.display = step === 3 ? "block" : "none";
+        showQuestion.style.display = step === 1 ? "block" : "none";
+        showtruefalseQuestion.style.display = step === 2 ? "block" : "none";
+        showComment.style.display = step === 3 ? "block" : "none";
+    }
+
+    window.goToStep = goToStep;
+} catch (error) {
+    console.log("step error", error);
+
 }
 
-window.goToStep = goToStep;
+// ---------------- TIMER UI ----------------
+try {
+    let timeLeft = 10 * 60;
+    const timerBox = document.getElementById("timer");
 
+    function updateTimer() {
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
 
+        timerBox.innerText = `Timer: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+
+        timeLeft--;
+
+        if (timeLeft < 0) {
+            localStorage.removeItem("token");
+            window.location.href = "login.html";
+        }
+    }
+
+    setInterval(updateTimer, 1000);
+} catch (error) {
+    console.log("timer error", error);
+
+}
 
 // ===================== Fetch MULTIPLE Questions ======================
 try {
@@ -267,88 +278,120 @@ window.submitMcqs = submitMcqs;
 
 // ==================  TRUE/FALSE QUESTIONS ==================
 
-try {
-    const { data, error } = await client.from('Ture-False').select('*');
+// try {
+//     const { data, error } = await client.from('Ture-False').select('*');
 
-    if (error) console.log(error);
-    else {
-        data.forEach(tf => {
-            showtruefalseQuestion.innerHTML += `
-            <div class="bg-[#10233d] p-6 md:p-8 m-3 rounded-2xl shadow-xl w-full max-w-xl mb-6 mx-auto">
-                <p class="text-xl md:text-2xl font-bold mb-5 text-[#b7d1fd]">${tf.Question}</p>
+//     if (error) console.log(error);
+//     else {
+//         data.forEach(tf => {
+//             showtruefalseQuestion.innerHTML += `
+//             <div class="bg-[#10233d] p-6 md:p-8 m-3 rounded-2xl shadow-xl w-full max-w-xl mb-6 mx-auto">
+//                 <p class="text-xl md:text-2xl font-bold mb-5 text-[#b7d1fd]">${tf.Question}</p>
 
-                <div class="flex gap-6">
-                    <label class="flex items-center cursor-pointer p-3 rounded-lg transition-colors hover:bg-[#153052]">
-                        <input type="radio" name="tf-${tf.id}" class="mr-3 w-5 h-5 text-black">
-                        <span class="text-white">TRUE</span>
-                    </label>
-                    <label class="flex items-center cursor-pointer p-3 rounded-lg transition-colors hover:bg-[#153052]">
-                        <input type="radio" name="tf-${tf.id}" class="mr-3 w-5 h-5 text-black">
-                        <span class="text-white">FALSE</span>
-                    </label>
-                </div>
-            </div>
-        `;
-        });
+//                 <div class="flex gap-6">
+//                     <label class="flex items-center cursor-pointer p-3 rounded-lg transition-colors hover:bg-[#153052]">
+//                         <input type="radio" name="tf-${tf.id}" class="mr-3 w-5 h-5 text-black">
+//                         <span class="text-white">TRUE</span>
+//                     </label>
+//                     <label class="flex items-center cursor-pointer p-3 rounded-lg transition-colors hover:bg-[#153052]">
+//                         <input type="radio" name="tf-${tf.id}" class="mr-3 w-5 h-5 text-black">
+//                         <span class="text-white">FALSE</span>
+//                     </label>
+//                 </div>
+//             </div>
+//         `;
+//         });
 
-        // ADD NEXT BUTTON 
-        showtruefalseQuestion.innerHTML += `
-            <button onclick="goToStep(3)" 
-            class="bg-[#1c75ff] hover:bg-[#0059d6] border-white text-white font-semibold px-6 py-3 rounded-xl w-full md:max-w-xl mx-auto block mt-4 transition-all shadow-lg">
-                Next
-            </button>
-        `;
-    }
+//         // ADD NEXT BUTTON 
+//         showtruefalseQuestion.innerHTML += `
+//             <button onclick="goToStep(3)" 
+//             class="bg-[#1c75ff] hover:bg-[#0059d6] border-white text-white font-semibold px-6 py-3 rounded-xl w-full md:max-w-xl mx-auto block mt-4 transition-all shadow-lg">
+//                 Next
+//             </button>
+//         `;
+//     }
 
-} catch (e) {
-    console.log("True/False fetch error", e);
-}
+// } catch (e) {
+//     console.log("True/False fetch error", e);
+// }
 
 // ================== COMMENT SECTION ==================
-showComment.innerHTML = `
-   <div class="bg-[#10233d] p-6 md:p-8 rounded-2xl shadow-xl w-full max-w-xl mb-6 mx-auto">
-        <label class="font-semibold mb-2 block text-white">Add a comment</label>
+// showComment.innerHTML = `
+//    <div class="bg-[#10233d] p-6 md:p-8 rounded-2xl shadow-xl w-full max-w-xl mb-6 mx-auto">
+//         <label class="font-semibold mb-2 block text-white">Add a comment</label>
 
-        <textarea id="dataComment" 
-        class="w-full p-3 rounded-lg bg-[#153052] text-white border border-[#2a4d77]"></textarea>
+//         <textarea id="dataComment" 
+//         class="w-full p-3 rounded-lg bg-[#153052] text-white border border-[#2a4d77]"></textarea>
 
-        <p class="text-[#88a4c8] mt-3 text-sm">
-            *You can ask anything in a comment.*
-        </p>
+//         <p class="text-[#88a4c8] mt-3 text-sm">
+//             *You can ask anything in a comment.*
+//         </p>
 
-        <button onclick="saveComment()" 
-        class="bg-[#1c75ff] mt-4 hover:bg-[#0059d6] transition-all font-semibold py-3 px-6 rounded-lg w-full text-white">
-            Submit Comment
-        </button>
-    </div>
-`;
+//         <button onclick="saveComment()" 
+//         class="bg-[#1c75ff] mt-4 hover:bg-[#0059d6] transition-all font-semibold py-3 px-6 rounded-lg w-full text-white">
+//             Submit Comment
+//         </button>
+//     </div>
+// `;
 
 
 window.saveComment = async function () {
     window.location.href = "thankyou.html"
 }
 
+// ============fetch user in Admin page=========
 
 
-//     const comment = document.getElementById("dataComment").value;
+const userData = document.getElementById("userData");
 
-//     if (!comment.trim()) {
-//         alert("Please write a comment!");
-//         return;
-//     }
+const { data, error } = await client
+    .from('Mcqs_selected_answer')
+    .select('*');
 
-//     // SAVE TO SUPABASE
-//     const { data, error } = await client
-//         .from("UserComments")
-//         .insert([{ comment }]);
+if (error) {
+    console.log("user fetch in admin page error==", error);
+} else {
+    // 1️⃣ Sab questions ka unique list nikal lo
+    const allQuestions = [...new Set(data.map(item => item.question_id))];
 
-//     if (error) {
-//         console.log("Comment save error:", error);
-//         alert("Failed to save comment.");
-//         return;
-//     }
+    // 2️⃣ Data ko user_id ke basis pe group karo
+    const grouped = {};
+    data.forEach(item => {
+        const uid = String(item.user_id);
+        if (!grouped[uid]) {
+            grouped[uid] = {
+                user_name: item.user_name,
+                answers: {}
+            };
+        }
+        // multiple answers overwrite na ho, array me push karo
+        grouped[uid].answers[item.question_id] = item.selected_answer;
+    });
 
-//     // 🔥 REDIRECT TO THANK YOU PAGE
-//     window.location.href = "thankyou.html";
-// }
+    // 3️⃣ Table header dynamically
+    let html = `<div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
+        <table class="w-full text-sm text-left rtl:text-right text-body">
+            <thead class="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default">
+                <tr>
+                    <th class="px-6 py-3 font-medium">User Id</th>
+                    <th class="px-6 py-3 font-medium">User Name</th>`;
+    allQuestions.forEach((qId, index) => {
+        html += `<th class="px-6 py-3 font-medium">Q${index + 1}</th>`;
+    });
+    html += `</tr></thead><tbody>`;
 
+    // 4️⃣ Table body me users ke answers
+    Object.entries(grouped).forEach(([uid, user]) => {
+        html += `<tr class="bg-neutral-primary border-b border-default">
+            <th class="px-6 py-4 font-medium text-heading whitespace-nowrap">${uid}</th>
+            <td class="px-6 py-4">${user.user_name}</td>`;
+        allQuestions.forEach(qId => {
+            html += `<td class="px-6 py-4">${user.answers[qId] || ""}</td>`;
+        });
+        html += `</tr>`;
+    });
+
+    html += `</tbody></table></div>`;
+
+    userData.innerHTML = html;
+}
