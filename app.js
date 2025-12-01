@@ -122,7 +122,7 @@ saveBtn1 && saveBtn1.addEventListener("click", async (e) => {
 })
 
 // ---------------- TIMER UI ----------------
-let timeLeft = 10 * 60; 
+let timeLeft = 10 * 60;
 const timerBox = document.getElementById("timer");
 
 function updateTimer() {
@@ -164,36 +164,37 @@ function goToStep(newStep) {
 window.goToStep = goToStep;
 
 
-// ================FETCH DATA=======================
 
-// ========== MULTIPLE QUESTIONS =========
+// ===================== Fetch MULTIPLE Questions ======================
 try {
     const { data, error } = await client.from('MultipleQuestion').select('*');
 
     if (error) console.log(error);
     else {
+
         data.forEach(q => {
+
             showQuestion.innerHTML += `
             <div class="bg-[#10233d] p-6 md:p-8 rounded-2xl shadow-xl w-full max-w-xl mb-6 mx-auto">
                 <p class="text-xl md:text-2xl font-bold mb-5 text-[#b7d1fd]">${q.Question}</p>
 
                 <label class="flex items-center mb-3 cursor-pointer hover:bg-[#153052] p-3 rounded-lg transition-colors">
-                    <input type="radio" name="mcq-${q.id}" class="mr-3 text-black">
+                    <input type="radio" name="mcq-${q.id}" value="${q.Option1}" class="mr-3 text-black">
                     <span class="text-white">${q.Option1}</span>
                 </label>
 
                 <label class="flex items-center mb-3 cursor-pointer hover:bg-[#153052] p-3 rounded-lg transition-colors">
-                    <input type="radio" name="mcq-${q.id}" class="mr-3 text-black">
+                    <input type="radio" name="mcq-${q.id}" value="${q.Option2}" class="mr-3 text-black">
                     <span class="text-white">${q.Option2}</span>
                 </label>
 
                 <label class="flex items-center mb-3 cursor-pointer hover:bg-[#153052] p-3 rounded-lg transition-colors">
-                    <input type="radio" name="mcq-${q.id}" class="mr-3 text-black">
+                    <input type="radio" name="mcq-${q.id}" value="${q.Option3}" class="mr-3 text-black">
                     <span class="text-white">${q.Option3}</span>
                 </label>
 
                 <label class="flex items-center mb-3 cursor-pointer hover:bg-[#153052] p-3 rounded-lg transition-colors">
-                    <input type="radio" name="mcq-${q.id}" class="mr-3 text-black">
+                    <input type="radio" name="mcq-${q.id}" value="${q.Option4}" class="mr-3 text-black">
                     <span class="text-white">${q.Option4}</span>
                 </label>
             </div>
@@ -201,9 +202,9 @@ try {
         });
 
         showQuestion.innerHTML += `
-            <button onclick="goToStep(2)" 
-            class="bg-[#1c75ff] hover:bg-[#0059d6]  text-white font-semibold px-6 py-3 rounded-xl w-full md:max-w-xl mx-auto block mt-4 transition-all shadow-lg">
-                Next 
+            <button onclick="submitMcqs()"
+            class="bg-[#1c75ff] hover:bg-[#0059d6] text-white font-semibold px-6 py-3 rounded-xl w-full md:max-w-xl mx-auto block mt-4 transition-all shadow-lg">
+                Next
             </button>
         `;
     }
@@ -212,7 +213,59 @@ try {
     console.log("Multiple fetch error", e);
 }
 
-// ================== FETCH TRUE/FALSE QUESTIONS (STEP 2) ==================
+
+// ========INSERT MCQS IN SUPABSE ==========
+
+async function submitMcqs() {
+    const { data: { user } } = await client.auth.getUser();
+    const userId = user.id;
+    const userName = user.user_metadata.username;
+    console.log(userName);
+
+
+    const { data: questions } = await client.from("MultipleQuestion").select("*");
+
+    let allSelected = true;
+    const answersToInsert = [];
+
+    questions.forEach(async (q) => {
+        const selected = document.querySelector(`input[name="mcq-${q.id}"]:checked`);
+
+        if (!selected) {
+            allSelected = false;
+        } else {
+            answersToInsert.push({
+
+                user_id: userId,
+                user_name: userName,
+                question_id: q.id,
+                selected_answer: selected.value
+            })
+        }
+    });
+
+    if (!allSelected) {
+        alert("plzz fill all the feilds.")
+        return;
+    }
+    const { error } = await client.from('Mcqs_selected_answer').insert(answersToInsert);
+
+    if (error) {
+        console.log("MCQS inserting error:", error);
+        alert("Something went wrong while saving answers!");
+        return;
+    }
+    alert("MCQS selected data inserted successfully!");
+
+    goToStep(2)
+
+
+}
+window.submitMcqs = submitMcqs;
+
+
+
+// ==================  TRUE/FALSE QUESTIONS ==================
 
 try {
     const { data, error } = await client.from('Ture-False').select('*');
@@ -251,7 +304,7 @@ try {
     console.log("True/False fetch error", e);
 }
 
-// ================== COMMENT SECTION (STEP 3) ==================
+// ================== COMMENT SECTION ==================
 showComment.innerHTML = `
    <div class="bg-[#10233d] p-6 md:p-8 rounded-2xl shadow-xl w-full max-w-xl mb-6 mx-auto">
         <label class="font-semibold mb-2 block text-white">Add a comment</label>
