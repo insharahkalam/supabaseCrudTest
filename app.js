@@ -6,7 +6,7 @@ const client = createClient(projectUrl, projectKey)
 console.log(createClient);
 console.log(client);
 
-
+// ==========signup========
 
 const username = document.getElementById("username")
 const email = document.getElementById("email")
@@ -26,7 +26,6 @@ btn && btn.addEventListener("click", async (e) => {
     })
     if (data) {
         console.log(data);
-
         alert("User registered!")
         username.value = ""
         email.value = ""
@@ -34,16 +33,11 @@ btn && btn.addEventListener("click", async (e) => {
         window.location.href = "home.html"
     } else {
         console.log("User register error!====", error);
-
     }
 
 })
 
-
-
-
-// =========LOGIN============
-
+// =========LOGIN===========
 
 const loginEmail = document.getElementById("loginEmail")
 const loginPassword = document.getElementById("loginPassword")
@@ -71,12 +65,7 @@ loginBtn && loginBtn.addEventListener("click", async (e) => {
 
         }
     }
-
-
-
 })
-
-
 
 // ===========MLTIPLE CHOOSE======
 
@@ -109,8 +98,6 @@ saveBtn && saveBtn.addEventListener("click", async (e) => {
     }
 })
 
-
-
 // =========true/false=======
 const truefalseQuestion = document.getElementById("truefalseQuestion")
 const tfCorrect = document.getElementById("tfCorrect")
@@ -125,7 +112,6 @@ saveBtn1 && saveBtn1.addEventListener("click", async (e) => {
         .from('Ture-False')
         .insert({ Question: truefalseQuestion.value, CorrectAnswer: tfCorrect.value })
 
-
     if (error) {
         console.log(error, "true false error");
     } else {
@@ -135,155 +121,8 @@ saveBtn1 && saveBtn1.addEventListener("click", async (e) => {
     }
 })
 
-
-
-// ========data comment=======
-
-const dataComment = document.getElementById("dataComment")
-const saveBtn2 = document.getElementById("saveBtn2")
-saveBtn2 && saveBtn2.addEventListener("click", async (e) => {
-    e.preventDefault()
-
-
-
-    const { error } = await client
-        .from('AddComment')
-        .insert({ Description: dataComment.value })
-
-    if (error) {
-        console.log(error, "data error");
-    } else {
-        alert("data added")
-        dataComment.value = ""
-    }
-
-})
-
-
-// ============FETCH DATA===========
-
-// try {
-//     const showQuestion = document.getElementById("showQuestion")
-
-//     const { data, error } = await client
-//         .from('MultipleQuestion')
-//         .select('*')
-
-//     if (error) {
-//         console.log(error, "fetch error");
-//     }
-//     else {
-//         data.forEach(quiz => {
-
-//             showQuestion.innerHTML += `
-
-//     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-//     <p id="question" class="text-lg font-semibold mb-6">${quiz.Question}</p>
-
-//     <div class="mb-4">
-//     <label class="flex items-center mb-2">
-//     <input type="radio" name="answer" value="Paris" class="mr-2">
-//         ${quiz.Option1}
-//       </label>
-//       <label class="flex items-center mb-2">
-//       <input type="radio" name="answer" value="London" class="mr-2">
-//       ${quiz.Option2}
-//       </label>
-//       <label class="flex items-center mb-2">
-//       <input type="radio" name="answer" value="Rome" class="mr-2">
-//       ${quiz.Option3}
-//       </label>
-//       <label class="flex items-center mb-2">
-//         <input type="radio" name="answer" value="Berlin" class="mr-2">
-//         ${quiz.Option4}
-//         </label>
-//         </div>
-
-//         <button onclick="checkAnswer()" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded w-full">
-//         Submit
-//         </button>
-
-//         `
-//         });
-
-//     }
-
-// } catch (error) {
-//     console.log(error, "multiple error showing post");
-
-// }
-
-// const showtruefalseQuestion = document.getElementById("showtruefalseQuestion")
-
-
-// try {
-//     const { data, error } = await client
-//         .from('Ture-False')
-//         .select('*')
-
-//     if (error) {
-//         console.log(error, "fetch error");
-//     } else{
-//         data.forEach(tfQuestion => {
-//             console.log(tfQuestion);
-
-//             showtruefalseQuestion.innerHTML += `
-//            <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-//     <p id="question" class="text-lg font-semibold mb-6">${tfQuestion.Question}</p>
-
-//     <div class="mb-4 flex">
-//     <label class="flex items-center mb-2">
-//     <input type="radio" name="answer" value="" class="mr-2">
-//         TRUE
-//       </label>
-//       <label class="flex items-center mb-2">
-//       <input type="radio" name="answer" value="" class="mr-2">
-//      FALSE
-//       </label> 
-
-//             `
-//         });
-//     }
-// } catch (error) {
-//     console.log(error, "true false error");
-
-// }
-
-
-// // ============comment=====
-
-
-// const showComment = document.getElementById("showComment")
-
-// showComment.innerHTML = `
-//        <div  class="w-[500px] bg-[#132a47] p-6 rounded-xl mb-6 shadow-md">
-//             <label class="font-semibold mb-2 block">Add a comment</label>
-//             <textarea id="dataComment" class="w-full p-3 rounded-lg bg-[#153052] border border-[#2a4d77] focus:outline-none 
-//                 focus:ring-2 focus:ring-[#7ab4ff]"></textarea>
-
-//             <p class="text-[#88a4c8] mt-3 text-sm">
-//                 *You can ask anything in a comment if you want to ask something.*
-//             </p>
-//             <!-- Save Button -->
-//             <button 
-//                 class="bg-[#1c75ff] mt-4 hover:bg-[#0059d6] transition-all font-semibold py-3 px-6 rounded-lg w-full">
-//             Comment
-//             </button>
-//         </div>
-
-// `
-
-// // ---------------------- TIMER (10 Minutes Auto Logout) ----------------------
-// setTimeout(() => {
-//     localStorage.removeItem("token");
-//     window.location.href = "login.html"; 
-// }, 10 * 60 * 1000); // 10 min
-
-
-
-
-// ---------------- TIMER UI + AUTO LOGOUT (10 minutes) ----------------
-let timeLeft = 10 * 60; // 10 min in seconds
+// ---------------- TIMER UI ----------------
+let timeLeft = 10 * 60; 
 const timerBox = document.getElementById("timer");
 
 function updateTimer() {
@@ -324,7 +163,10 @@ function goToStep(newStep) {
 
 window.goToStep = goToStep;
 
-// ================== FETCH MULTIPLE QUESTIONS (STEP 1) ==================
+
+// ================FETCH DATA=======================
+
+// ========== MULTIPLE QUESTIONS =========
 try {
     const { data, error } = await client.from('MultipleQuestion').select('*');
 
@@ -358,7 +200,6 @@ try {
         `;
         });
 
-        // ADD NEXT BUTTON 
         showQuestion.innerHTML += `
             <button onclick="goToStep(2)" 
             class="bg-[#1c75ff] hover:bg-[#0059d6]  text-white font-semibold px-6 py-3 rounded-xl w-full md:max-w-xl mx-auto block mt-4 transition-all shadow-lg">
@@ -431,9 +272,7 @@ showComment.innerHTML = `
 
 
 window.saveComment = async function () {
-
     window.location.href = "thankyou.html"
-
 }
 
 
