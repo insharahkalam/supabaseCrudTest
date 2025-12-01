@@ -125,7 +125,7 @@ saveBtn1 && saveBtn1.addEventListener("click", async (e) => {
 
 
 // ---------------------- STEP CONTROL ----------------------
-try {
+
     let step = 1;
 
     const showQuestion = document.getElementById("showQuestion")
@@ -146,10 +146,7 @@ try {
     }
 
     window.goToStep = goToStep;
-} catch (error) {
-    console.log("step error", error);
 
-}
 
 // ---------------- TIMER UI ----------------
 try {
@@ -278,42 +275,46 @@ window.submitMcqs = submitMcqs;
 
 // ==================  TRUE/FALSE QUESTIONS ==================
 
-// try {
-//     const { data, error } = await client.from('Ture-False').select('*');
+try {
+    const { data, error } = await client.from('Ture-False').select('*');
 
-//     if (error) console.log(error);
-//     else {
-//         data.forEach(tf => {
-//             showtruefalseQuestion.innerHTML += `
-//             <div class="bg-[#10233d] p-6 md:p-8 m-3 rounded-2xl shadow-xl w-full max-w-xl mb-6 mx-auto">
-//                 <p class="text-xl md:text-2xl font-bold mb-5 text-[#b7d1fd]">${tf.Question}</p>
+    if (error) console.log(error);
+    else {
+        data.forEach(tf => {
+            showtruefalseQuestion.innerHTML += `
+            <div class="bg-[#10233d] p-6 md:p-8 m-3 rounded-2xl shadow-xl w-full max-w-xl mb-6 mx-auto">
+                <p class="text-xl md:text-2xl font-bold mb-5 text-[#b7d1fd]">${tf.Question}</p>
 
-//                 <div class="flex gap-6">
-//                     <label class="flex items-center cursor-pointer p-3 rounded-lg transition-colors hover:bg-[#153052]">
-//                         <input type="radio" name="tf-${tf.id}" class="mr-3 w-5 h-5 text-black">
-//                         <span class="text-white">TRUE</span>
-//                     </label>
-//                     <label class="flex items-center cursor-pointer p-3 rounded-lg transition-colors hover:bg-[#153052]">
-//                         <input type="radio" name="tf-${tf.id}" class="mr-3 w-5 h-5 text-black">
-//                         <span class="text-white">FALSE</span>
-//                     </label>
-//                 </div>
-//             </div>
-//         `;
-//         });
+                <div class="flex gap-6">
+                    <label class="flex items-center cursor-pointer p-3 rounded-lg transition-colors hover:bg-[#153052]">
+                        <input type="radio" name="tf-${tf.id}" class="mr-3 w-5 h-5 text-black">
+                        <span class="text-white">TRUE</span>
+                    </label>
+                    <label class="flex items-center cursor-pointer p-3 rounded-lg transition-colors hover:bg-[#153052]">
+                        <input type="radio" name="tf-${tf.id}" class="mr-3 w-5 h-5 text-black">
+                        <span class="text-white">FALSE</span>
+                    </label>
+                </div>
+            </div>
+        `;
+        });
 
-//         // ADD NEXT BUTTON 
-//         showtruefalseQuestion.innerHTML += `
-//             <button onclick="goToStep(3)" 
-//             class="bg-[#1c75ff] hover:bg-[#0059d6] border-white text-white font-semibold px-6 py-3 rounded-xl w-full md:max-w-xl mx-auto block mt-4 transition-all shadow-lg">
-//                 Next
-//             </button>
-//         `;
-//     }
+        // ADD NEXT BUTTON 
+        showtruefalseQuestion.innerHTML += `
+            <button onclick="submitTrueFalse()"
+            class="bg-[#1c75ff] hover:bg-[#0059d6] border-white text-white font-semibold px-6 py-3 rounded-xl w-full md:max-w-xl mx-auto block mt-4 transition-all shadow-lg">
+                Next
+            </button>
+        `;
+    }
 
-// } catch (e) {
-//     console.log("True/False fetch error", e);
-// }
+} catch (e) {
+    console.log("True/False fetch error", e);
+}
+
+
+
+
 
 // ================== COMMENT SECTION ==================
 // showComment.innerHTML = `
