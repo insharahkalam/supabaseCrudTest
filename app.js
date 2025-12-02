@@ -25,8 +25,19 @@ btn && btn.addEventListener("click", async (e) => {
         }
     })
     if (data) {
+        let userdata = data.user.user_metadata
+        console.log(userdata);
+        // ====insert user to supabase======
+        const { error } = await client
+            .from('AllUserData')
+            .insert({ user_id: data.user.id, name: userdata.username, email: userdata.email })
+
+        if (error) {
+            console.log("user show error", error);
+        } else {
+            alert("User insert in supabase")
+        }
         console.log(data);
-        alert("User registered!")
         username.value = ""
         email.value = ""
         password.value = ""
@@ -183,7 +194,7 @@ async function loadMCQS() {
         showQuestion.innerHTML += `
             <div class="bg-[#10233d] p-6 md:p-8 rounded-2xl shadow-xl mb-6">
                 <p class="text-xl font-bold text-[#b7d1fd]">${q.Question}</p>
-                ${['Option1','Option2','Option3','Option4'].map(opt => `
+                ${['Option1', 'Option2', 'Option3', 'Option4'].map(opt => `
                     <label class="flex items-center mb-3 cursor-pointer hover:bg-[#153052] p-3 rounded-lg transition-colors">
                         <input type="radio" name="mcq-${q.id}" value="${q[opt]}" class="mr-3 text-black">
                         <span class="text-white">${q[opt]}</span>
@@ -397,3 +408,44 @@ async function loadMergedData() {
 }
 
 loadMergedData();
+
+
+// ========Show ALl USERS========
+
+const showAllUsers = document.getElementById("showAllUsers")
+
+
+
+const { data, error } = await client
+    .from('AllUserData')
+    .select('*')
+
+if (error) {
+    console.log("error in fetching users data", error);
+} else {
+    data.forEach((showuser) => {
+        console.log(showuser);
+        
+        showAllUsers.innerHTML = `
+        
+        <div class="relative overflow-x-auto shadow rounded">
+        <table class="w-full text-sm text-left">
+        <thead class="bg-gray-900">
+        <tr>
+            <th class="px-4 py-2">User ID</th>
+            <th class="px-4 py-2">Email</th>
+            <th class="px-4 py-2">Username</th>
+        </tr>
+        </thead><tbody>
+
+        <tr>
+            <td class="px-4 py-2">${showuser.user_id}</td>
+            <td class="px-4 py-2">${showuser.email}</td>
+            <td class="px-4 py-2">${showuser.name}</td>
+            <td class="px-4 py-2"><button class="rounded-xl border px-3 py-2">Delete</button></td>
+            
+       </tr>
+        </tbody></table></div>
+        `
+    })
+}
