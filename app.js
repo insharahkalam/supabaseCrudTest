@@ -324,20 +324,107 @@ window.submitTFAnswer = submitTFAnswer;
 
 // ============fetch user in Admin page=========
 
+// async function loadMergedData() {
+//     const userData = document.getElementById("userData");
+
+//     // 1️⃣ Fetch MCQS answers
+//     const { data: mcqsData, error: mcqsErr } = await client
+//         .from("Mcqs_selected_answer")
+//         .select("*");
+
+//     // 2️⃣ Fetch True/False answers
+//     const { data: tfData, error: tfErr } = await client
+//         .from("True-false_Answer")
+//         .select("*");
+
+//     // 3️⃣ Fetch Comments
+//     const { data: commentData, error: commentErr } = await client
+//         .from("User_comments")
+//         .select("*");
+
+//     if (mcqsErr || tfErr || commentErr) {
+//         console.log("Fetch error:", mcqsErr || tfErr || commentErr);
+//         return;
+//     }
+
+//     // 4️⃣ Unique questions
+//     const mcqsQuestions = [...new Set(mcqsData.map(i => i.question_id))];
+//     const tfQuestions = [...new Set(tfData.map(i => i.question_id))];
+
+//     // 5️⃣ Group by user_id
+//     const grouped = {};
+
+//     // MCQS
+//     mcqsData.forEach(item => {
+//         const uid = item.user_id;
+//         if (!grouped[uid]) grouped[uid] = { user_name: item.user_name || "Anonymous", mcqs: {}, tf: {}, comment: "" };
+//         grouped[uid].mcqs[item.question_id] = item.selected_answer;
+//     });
+
+//     // True/False
+//     tfData.forEach(item => {
+//         const uid = item.user_id;
+//         if (!grouped[uid]) grouped[uid] = { user_name: item.user_name || "Anonymous", mcqs: {}, tf: {}, comment: "" };
+//         grouped[uid].tf[item.question_id] = item.selected_answer;
+//         if (!grouped[uid].user_name) grouped[uid].user_name = item.user_name || "Anonymous";
+//     });
+
+//     // Comments
+//     commentData.forEach(item => {
+//         const uid = item.user_id;
+//         if (!grouped[uid]) grouped[uid] = { user_name: item.user_name || "Anonymous", mcqs: {}, tf: {}, comment: "" };
+//         grouped[uid].comment = item.comments || "";
+//         if (!grouped[uid].user_name) grouped[uid].user_name = item.user_name || "Anonymous";
+//     });
+
+//     // 6️⃣ Build HTML Table
+//     let html = `<div class="relative overflow-x-auto shadow rounded">
+//         <table class="w-full text-sm text-left">
+//         <thead class="bg-gray-900">
+//         <tr>
+//             <th class="px-4 py-2">User ID</th>
+//             <th class="px-4 py-2">User Name</th>`;
+
+//     mcqsQuestions.forEach((qid, i) => html += `<th class="px-4 py-2">MCQ's A${i + 1}</th>`);
+//     tfQuestions.forEach((qid, i) => html += `<th class="px-4 py-2">T/F A${i + 1}</th>`);
+//     html += `<th class="px-4 py-2">Comment</th>`;
+//     html += `</tr></thead><tbody>`;
+
+//     // 7️⃣ Table rows
+//     Object.entries(grouped).forEach(([uid, user]) => {
+//         html += `<tr class="border-b">
+//             <td class="px-4 py-2">${uid}</td>
+//             <td class="px-4 py-2">${user.user_name}</td>`;
+
+//         mcqsQuestions.forEach(qid => html += `<td class="px-4 py-2">${user.mcqs[qid] || ""}</td>`);
+//         tfQuestions.forEach(qid => html += `<td class="px-4 py-2">${user.tf[qid] || ""}</td>`);
+//         html += `<td class="px-4 py-2">${user.comment || ""}</td>`;
+//         html += `</tr>`;
+//     });
+
+//     html += `</tbody></table></div>`;
+
+//     userData.innerHTML = html;
+// }
+
+// loadMergedData();
+
+
+
 async function loadMergedData() {
     const userData = document.getElementById("userData");
 
-    // 1️⃣ Fetch MCQS answers
+    // Fetch MCQS
     const { data: mcqsData, error: mcqsErr } = await client
         .from("Mcqs_selected_answer")
         .select("*");
 
-    // 2️⃣ Fetch True/False answers
+    // Fetch True/False
     const { data: tfData, error: tfErr } = await client
         .from("True-false_Answer")
         .select("*");
 
-    // 3️⃣ Fetch Comments
+    // Fetch Comments
     const { data: commentData, error: commentErr } = await client
         .from("User_comments")
         .select("*");
@@ -347,62 +434,57 @@ async function loadMergedData() {
         return;
     }
 
-    // 4️⃣ Unique questions
+    // Unique question lists
     const mcqsQuestions = [...new Set(mcqsData.map(i => i.question_id))];
     const tfQuestions = [...new Set(tfData.map(i => i.question_id))];
 
-    // 5️⃣ Group by user_id
+    // Group answers by user
     const grouped = {};
 
-    // MCQS
-    mcqsData.forEach(item => {
-        const uid = item.user_id;
-        if (!grouped[uid]) grouped[uid] = { user_name: item.user_name || "Anonymous", mcqs: {}, tf: {}, comment: "" };
-        grouped[uid].mcqs[item.question_id] = item.selected_answer;
+    mcqsData.forEach(i => {
+        if (!grouped[i.user_id]) grouped[i.user_id] = { user_name: i.user_name, mcqs: {}, tf: {}, comment: "" };
+        grouped[i.user_id].mcqs[i.question_id] = i.selected_answer;
     });
 
-    // True/False
-    tfData.forEach(item => {
-        const uid = item.user_id;
-        if (!grouped[uid]) grouped[uid] = { user_name: item.user_name || "Anonymous", mcqs: {}, tf: {}, comment: "" };
-        grouped[uid].tf[item.question_id] = item.selected_answer;
-        if (!grouped[uid].user_name) grouped[uid].user_name = item.user_name || "Anonymous";
+    tfData.forEach(i => {
+        if (!grouped[i.user_id]) grouped[i.user_id] = { user_name: i.user_name, mcqs: {}, tf: {}, comment: "" };
+        grouped[i.user_id].tf[i.question_id] = i.selected_answer;
     });
 
-    // Comments
-    commentData.forEach(item => {
-        const uid = item.user_id;
-        if (!grouped[uid]) grouped[uid] = { user_name: item.user_name || "Anonymous", mcqs: {}, tf: {}, comment: "" };
-        grouped[uid].comment = item.comments || "";
-        if (!grouped[uid].user_name) grouped[uid].user_name = item.user_name || "Anonymous";
+    commentData.forEach(i => {
+        if (!grouped[i.user_id]) grouped[i.user_id] = { user_name: i.user_name, mcqs: {}, tf: {}, comment: "" };
+        grouped[i.user_id].comment = i.comments;
     });
 
-    // 6️⃣ Build HTML Table
-    let html = `<div class="relative overflow-x-auto shadow rounded">
-        <table class="w-full text-sm text-left">
-        <thead class="bg-gray-900">
-        <tr>
-            <th class="px-4 py-2">User ID</th>
-            <th class="px-4 py-2">User Name</th>`;
+    // Beautiful UI
+    let html = `
+    <div class="backdrop-blur-xl bg-white/10 border border-white/10 shadow-2xl rounded-2xl p-7">
+        <h1 class="text-3xl font-bold mb-6">User Submitted Answers</h1>
 
-    mcqsQuestions.forEach((qid, i) => html += `<th class="px-4 py-2">MCQ's A${i + 1}</th>`);
-    tfQuestions.forEach((qid, i) => html += `<th class="px-4 py-2">T/F A${i + 1}</th>`);
-    html += `<th class="px-4 py-2">Comment</th>`;
-    html += `</tr></thead><tbody>`;
+        <div class="overflow-x-auto rounded-xl border border-white/10 shadow-xl">
+            <table class="w-full text-sm">
+                <thead class="bg-white/20 text-gray-200">
+                    <tr>
+                        <th class="px-4 py-3 font-bold">User ID</th>
+                        <th class="px-4 py-3 font-bold">Name</th>`;
 
-    // 7️⃣ Table rows
+    mcqsQuestions.forEach((qid, i) => html += `<th class="px-4 py-3 font-bold">MCQ ${i + 1}</th>`);
+    tfQuestions.forEach((qid, i) => html += `<th class="px-4 py-3 font-bold">T/F ${i + 1}</th>`);
+
+    html += `<th class="px-4 py-3 font-bold">Comment</th></tr></thead><tbody>`;
+
     Object.entries(grouped).forEach(([uid, user]) => {
-        html += `<tr class="border-b">
-            <td class="px-4 py-2">${uid}</td>
-            <td class="px-4 py-2">${user.user_name}</td>`;
+        html += `
+        <tr class="border-b border-gray-700/40 hover:bg-white/20 cursor-pointer transition">
+            <td class="px-4 py-3">${uid}</td>
+            <td class="px-4 py-3">${user.user_name}</td>`;
 
-        mcqsQuestions.forEach(qid => html += `<td class="px-4 py-2">${user.mcqs[qid] || ""}</td>`);
-        tfQuestions.forEach(qid => html += `<td class="px-4 py-2">${user.tf[qid] || ""}</td>`);
-        html += `<td class="px-4 py-2">${user.comment || ""}</td>`;
-        html += `</tr>`;
+        mcqsQuestions.forEach(qid => html += `<td class="px-4 py-3">${user.mcqs[qid] || "-"}</td>`);
+        tfQuestions.forEach(qid => html += `<td class="px-4 py-3">${user.tf[qid] || "-"}</td>`);
+        html += `<td class="px-4 py-3">${user.comment || "-"}</td></tr>`;
     });
 
-    html += `</tbody></table></div>`;
+    html += `</tbody></table></div></div>`;
 
     userData.innerHTML = html;
 }
@@ -410,11 +492,15 @@ async function loadMergedData() {
 loadMergedData();
 
 
-// ========Show ALl USERS========
-
-const showAllUsers = document.getElementById("showAllUsers")
 
 
+
+
+
+
+// ======== Show ALl USERS (Beautiful UI) ========
+
+const showAllUsers = document.getElementById("showAllUsers");
 
 const { data, error } = await client
     .from('AllUserData')
@@ -423,29 +509,69 @@ const { data, error } = await client
 if (error) {
     console.log("error in fetching users data", error);
 } else {
-    data.forEach((showuser) => {
-        console.log(showuser);
-        
-        showAllUsers.innerHTML = `
-        
-        <div class="relative overflow-x-auto shadow rounded">
-        <table class="w-full text-sm text-left">
-        <thead class="bg-gray-900">
-        <tr>
-            <th class="px-4 py-2">User ID</th>
-            <th class="px-4 py-2">Email</th>
-            <th class="px-4 py-2">Username</th>
-        </tr>
-        </thead><tbody>
 
-        <tr>
-            <td class="px-4 py-2">${showuser.user_id}</td>
-            <td class="px-4 py-2">${showuser.email}</td>
-            <td class="px-4 py-2">${showuser.name}</td>
-            <td class="px-4 py-2"><button class="rounded-xl border px-3 py-2">Delete</button></td>
-            
-       </tr>
-        </tbody></table></div>
-        `
-    })
+    let tableHTML = `
+    <div class="backdrop-blur-xl bg-white/10 p-6 rounded-2xl shadow-2xl border border-white/10">
+        <h1 class="text-2xl font-bold mb-5">All Registered Users</h1>
+
+        <div class="overflow-x-auto rounded-xl border border-white/10">
+            <table class="w-full text-sm">
+                <thead class="bg-white/20 text-gray-200">
+                    <tr>
+                        <th class="text-start ps-8 py-3 text-lg font-bold">User ID</th>
+                        <th class="text-start ps-8 py-3 text-lg font-bold">Email</th>
+                        <th class="text-start ps-8 py-3 text-lg font-bold">Username</th>
+                        <th class="text-start ps-8 py-3 text-lg font-bold text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+
+    data.forEach(showuser => {
+        tableHTML += `
+            <tr class="border-b border-gray-700/50  hover:bg-white/20 cursor-pointer transition">
+                <td class="text-start ps-8 py-3">${showuser.user_id}</td>
+                <td class="text-start ps-8 py-3">${showuser.email}</td>
+                <td class="text-start ps-8 py-3">${showuser.name}</td>
+                <td class="text-start ps-8 py-3 text-center">
+                    <button onclick="deleteUser('${showuser.user_id}')"
+                        class="bg-red-600 hover:bg-red-800 font-bold transition px-6 me-4 md:me-0 py-2 rounded-lg text-white shadow-lg">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        `;
+    });
+
+    tableHTML += `
+                </tbody>
+            </table>
+        </div>
+    </div>
+    `;
+
+    showAllUsers.innerHTML = tableHTML;
 }
+
+
+// ======== Delete User ========
+
+async function deleteUser(userId) {
+    console.log("Deleting row:", userId);
+
+    const { error } = await client
+        .from("AllUserData")
+        .delete()
+        .eq("user_id", userId);
+
+    if (error) {
+        console.log("Delete error:", error);
+        alert("Delete failed");
+        return;
+    }
+
+    alert("User deleted successfully!");
+    location.reload();
+}
+
+window.deleteUser = deleteUser;

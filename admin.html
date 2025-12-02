@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -7,14 +7,15 @@
     <title>Admin Survey Form</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="bg-[#0b1a2d] text-white  min-h-screen">
 
 
-    <!-- Navbar -->
+    
     <nav class="shadow-lg w-full z-20 top-0 start-0 border-b border-gray-700">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto py-4 px-10">
             <a href="admin.html" class="flex items-center space-x-3">
                 <span class="self-center text-xl font-bold">Covid Survey</span>
             </a>
@@ -27,43 +28,46 @@
                 </svg>
             </button>
             <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-                <ul
-                    class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-700 rounded-lg bg-[#10233d] md:flex-row md:space-x-7 md:mt-0 md:border-0 md:bg-transparent">
-                    <li><a href="addQuestion.html" class="block py-2  rounded md:bg-transparent md:text-white">Add
-                            Questions</a></li>
-                    <li><a href="allUser.html"
-                            class="block py-2  rounded hover:bg-gray-700 md:hover:bg-transparent md:text-white">All
-                            User</a>
+                <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-700 rounded-lg bg-[#10233d] 
+           md:flex-row md:space-x-7 md:mt-0 md:border-0 md:bg-transparent">
+
+                    <li>
+                        <a href="addQuestion.html" class="relative block py-2 rounded group">
+                            Add Questions
+                            <span
+                                class="absolute left-0 -bottom-1 w-0 h-[2px] bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+                        </a>
                     </li>
-                    <li><a href="userAnswer.html"
-                            class="block py-2  rounded hover:bg-gray-700 md:hover:bg-transparent md:text-white">User
-                            Answer</a>
+
+                    <li>
+                        <a href="allUser.html" class="relative block py-2 rounded group">
+                            All Users
+                            <span
+                                class="absolute left-0 -bottom-1 w-0 h-[2px] bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+                        </a>
                     </li>
-                    <li><a href="#"
-                            class="block py-2  rounded hover:bg-gray-700 md:hover:bg-transparent md:text-white">Profile</a>
+
+                    <li>
+                        <a href="userAnswer.html" class="relative block py-2 rounded group">
+                            User Answers
+                            <span
+                                class="absolute left-0 -bottom-1 w-0 h-[2px] bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+                        </a>
                     </li>
+
+                    <li>
+                        <a href="#" class="relative block py-2 rounded group">
+                            Profile
+                            <span
+                                class="absolute left-0 -bottom-1 w-0 h-[2px] bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                    </li>
+
                 </ul>
+
             </div>
         </div>
     </nav>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -72,4 +76,112 @@
     <script type="module" src="app.js"></script>
 </body>
 
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Covid Survey Admin</title>
+</head>
+
+<body class="bg-gray-100">
+
+  <!-- NAVBAR -->
+  <nav class="bg-blue-900 text-white shadow-lg">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+
+      <h1 class="text-2xl font-bold tracking-wide">Covid Survey Admin</h1>
+
+      <ul class="flex gap-8 text-lg font-medium">
+        <li class="hover:text-gray-300 cursor-pointer transition">Dashboard</li>
+        <li class="hover:text-gray-300 cursor-pointer transition">Add Questions</li>
+        <li class="hover:text-gray-300 cursor-pointer transition">All Users</li>
+        <li class="hover:text-gray-300 cursor-pointer transition">User Answers</li>
+      </ul>
+
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="max-w-7xl mx-auto px-6 py-12">
+
+    <!-- WELCOME ADMIN -->
+    <div class="mb-12 bg-white p-10 rounded-2xl shadow-xl border border-gray-200">
+      <h2 class="text-4xl font-extrabold text-gray-800">Welcome, Admin 👋</h2>
+      <p class="text-gray-600 mt-3 text-lg">
+        Manage questions, users, survey responses and monitor Covid survey analytics.
+      </p>
+    </div>
+
+    <!-- STATS -->
+    <div class="grid md:grid-cols-3 gap-8 mb-12">
+
+      <!-- Total Questions -->
+      <div class="bg-white p-7 rounded-2xl shadow-md border border-gray-200 hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold text-blue-700">Total Questions</h3>
+        <p class="text-5xl font-bold mt-4">24</p>
+        <p class="text-gray-500 mt-1">All active survey questions</p>
+      </div>
+
+      <!-- Total Users -->
+      <div class="bg-white p-7 rounded-2xl shadow-md border border-gray-200 hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold text-green-700">Total Users</h3>
+        <p class="text-5xl font-bold mt-4">132</p>
+        <p class="text-gray-500 mt-1">Registered participants</p>
+      </div>
+
+      <!-- Total Answers -->
+      <div class="bg-white p-7 rounded-2xl shadow-md border border-gray-200 hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold text-purple-700">User Answers</h3>
+        <p class="text-5xl font-bold mt-4">468</p>
+        <p class="text-gray-500 mt-1">Total submitted responses</p>
+      </div>
+
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <h3 class="text-3xl font-bold mb-6">Quick Actions</h3>
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <!-- Add Questions -->
+      <a href="addQuestion.html">
+        <div class="bg-white p-7 rounded-2xl shadow-md border border-gray-200 hover:bg-blue-50 hover:shadow-xl transition cursor-pointer">
+          <h4 class="text-xl font-semibold mb-2">➕ Add Questions</h4>
+          <p class="text-gray-600">Create new Covid survey questions.</p>
+        </div>
+      </a>
+
+      <!-- All Users -->
+      <a href="allUser.html">
+        <div class="bg-white p-7 rounded-2xl shadow-md border border-gray-200 hover:bg-blue-50 hover:shadow-xl transition cursor-pointer">
+          <h4 class="text-xl font-semibold mb-2">👥 All Users</h4>
+          <p class="text-gray-600">View and manage registered users.</p>
+        </div>
+      </a>
+
+      <!-- User Answers -->
+      <a href="userAnswer.html">
+        <div class="bg-white p-7 rounded-2xl shadow-md border border-gray-200 hover:bg-blue-50 hover:shadow-xl transition cursor-pointer">
+          <h4 class="text-xl font-semibold mb-2">🧾 User Answers</h4>
+          <p class="text-gray-600">Check submitted survey responses.</p>
+        </div>
+      </a>
+
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-blue-900 text-white py-5 mt-16">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <p class="text-lg font-medium">🦠 Covid Survey System</p>
+      <p class="text-gray-300 text-sm mt-1">Helping track Covid awareness and responses.</p>
+      <p class="text-gray-300 text-sm mt-1">© 2025 All Rights Reserved</p>
+    </div>
+  </footer>
+
+</body>
 </html>
