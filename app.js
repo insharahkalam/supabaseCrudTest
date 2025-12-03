@@ -162,38 +162,40 @@ try {
 }
 
 // ---------------- TIMER UI ----------------
-// try {
-//     let timeLeft = 10 * 60;
-//     const timerBox = document.getElementById("timer");
+try {
+    let timeLeft = 10 * 60;
+    const timerBox = document.getElementById("timer");
 
-//     function updateTimer() {
-//         let minutes = Math.floor(timeLeft / 60);
-//         let seconds = timeLeft % 60;
+    function updateTimer() {
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
 
-//         timerBox.innerText = `Timer: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+        timerBox.innerText = `Timer: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 
-//         timeLeft--;
+        timeLeft--;
 
-//         if (timeLeft < 0) {
-//             localStorage.removeItem("token");
-//             window.location.href = "login.html";
-//         }
-//     }
+        if (timeLeft < 0) {
+            localStorage.removeItem("token");
+            window.location.href = "login.html";
+        }
+    }
 
-//     setInterval(updateTimer, 1000);
-// } catch (error) {
-//     console.log("timer error", error);
+    setInterval(updateTimer, 1000);
+} catch (error) {
+    console.log("timer error", error);
 
-// }
+}
 
 // ================= FETCH AND DISPLAY QUESTIONS =================
 
 async function loadMCQS() {
     const { data } = await client.from('MultipleQuestion').select("*");
-    data.forEach(q => {
+    data.forEach( q => {
+        console.log( q,"showdata");
+        
         showQuestion.innerHTML += `
             <div class="bg-[#10233d] p-6 md:p-8 rounded-2xl shadow-xl mb-6">
-                <p class="text-xl font-bold text-[#b7d1fd]">${q.Question}</p>
+                <p class="text-xl font-bold text-[#b7d1fd]"> ${q.Question}</p>
                 ${['Option1', 'Option2', 'Option3', 'Option4'].map(opt => `
                     <label class="flex items-center mb-3 cursor-pointer hover:bg-[#153052] p-3 rounded-lg transition-colors">
                         <input type="radio" name="mcq-${q.id}" value="${q[opt]}" class="mr-3 text-black">
@@ -324,143 +326,92 @@ window.submitTFAnswer = submitTFAnswer;
 
 // ============fetch user in Admin page=========
 
-// async function loadMergedData() {
-//     const userData = document.getElementById("userData");
-
-//     // 1️⃣ Fetch MCQS answers
-//     const { data: mcqsData, error: mcqsErr } = await client
-//         .from("Mcqs_selected_answer")
-//         .select("*");
-
-//     // 2️⃣ Fetch True/False answers
-//     const { data: tfData, error: tfErr } = await client
-//         .from("True-false_Answer")
-//         .select("*");
-
-//     // 3️⃣ Fetch Comments
-//     const { data: commentData, error: commentErr } = await client
-//         .from("User_comments")
-//         .select("*");
-
-//     if (mcqsErr || tfErr || commentErr) {
-//         console.log("Fetch error:", mcqsErr || tfErr || commentErr);
-//         return;
-//     }
-
-//     // 4️⃣ Unique questions
-//     const mcqsQuestions = [...new Set(mcqsData.map(i => i.question_id))];
-//     const tfQuestions = [...new Set(tfData.map(i => i.question_id))];
-
-//     // 5️⃣ Group by user_id
-//     const grouped = {};
-
-//     // MCQS
-//     mcqsData.forEach(item => {
-//         const uid = item.user_id;
-//         if (!grouped[uid]) grouped[uid] = { user_name: item.user_name || "Anonymous", mcqs: {}, tf: {}, comment: "" };
-//         grouped[uid].mcqs[item.question_id] = item.selected_answer;
-//     });
-
-//     // True/False
-//     tfData.forEach(item => {
-//         const uid = item.user_id;
-//         if (!grouped[uid]) grouped[uid] = { user_name: item.user_name || "Anonymous", mcqs: {}, tf: {}, comment: "" };
-//         grouped[uid].tf[item.question_id] = item.selected_answer;
-//         if (!grouped[uid].user_name) grouped[uid].user_name = item.user_name || "Anonymous";
-//     });
-
-//     // Comments
-//     commentData.forEach(item => {
-//         const uid = item.user_id;
-//         if (!grouped[uid]) grouped[uid] = { user_name: item.user_name || "Anonymous", mcqs: {}, tf: {}, comment: "" };
-//         grouped[uid].comment = item.comments || "";
-//         if (!grouped[uid].user_name) grouped[uid].user_name = item.user_name || "Anonymous";
-//     });
-
-//     // 6️⃣ Build HTML Table
-//     let html = `<div class="relative overflow-x-auto shadow rounded">
-//         <table class="w-full text-sm text-left">
-//         <thead class="bg-gray-900">
-//         <tr>
-//             <th class="px-4 py-2">User ID</th>
-//             <th class="px-4 py-2">User Name</th>`;
-
-//     mcqsQuestions.forEach((qid, i) => html += `<th class="px-4 py-2">MCQ's A${i + 1}</th>`);
-//     tfQuestions.forEach((qid, i) => html += `<th class="px-4 py-2">T/F A${i + 1}</th>`);
-//     html += `<th class="px-4 py-2">Comment</th>`;
-//     html += `</tr></thead><tbody>`;
-
-//     // 7️⃣ Table rows
-//     Object.entries(grouped).forEach(([uid, user]) => {
-//         html += `<tr class="border-b">
-//             <td class="px-4 py-2">${uid}</td>
-//             <td class="px-4 py-2">${user.user_name}</td>`;
-
-//         mcqsQuestions.forEach(qid => html += `<td class="px-4 py-2">${user.mcqs[qid] || ""}</td>`);
-//         tfQuestions.forEach(qid => html += `<td class="px-4 py-2">${user.tf[qid] || ""}</td>`);
-//         html += `<td class="px-4 py-2">${user.comment || ""}</td>`;
-//         html += `</tr>`;
-//     });
-
-//     html += `</tbody></table></div>`;
-
-//     userData.innerHTML = html;
-// }
-
-// loadMergedData();
-
-
-
 async function loadMergedData() {
     const userData = document.getElementById("userData");
 
-    // Fetch MCQS
+    // --- FETCH DATA ---
     const { data: mcqsData, error: mcqsErr } = await client
         .from("Mcqs_selected_answer")
         .select("*");
-
-    // Fetch True/False
     const { data: tfData, error: tfErr } = await client
         .from("True-false_Answer")
         .select("*");
-
-    // Fetch Comments
     const { data: commentData, error: commentErr } = await client
         .from("User_comments")
         .select("*");
 
-    if (mcqsErr || tfErr || commentErr) {
-        console.log("Fetch error:", mcqsErr || tfErr || commentErr);
+    const { data: correctMcq, error: mcqCorrErr } = await client
+        .from("MultipleQuestion")
+        .select("id, CorrectAnswer");
+
+    const { data: correctTF, error: tfCorrErr } = await client
+        .from("Ture-False")
+        .select("id, CorrectAnswer");
+
+    if (mcqsErr || tfErr || commentErr || mcqCorrErr || tfCorrErr) {
+        console.log("Fetch error:", mcqsErr || tfErr || commentErr || mcqCorrErr || tfCorrErr);
         return;
     }
 
-    // Unique question lists
+    // --- CREATE CORRECT ANSWER MAPS ---
+    const correctMcqMap = {};
+    correctMcq.forEach(q => correctMcqMap[q.id] = q.CorrectAnswer);
+
+
+    const correctTFMap = {};
+    correctTF.forEach(q => correctTFMap[q.id] = q.CorrectAnswer);
+
+    // --- UNIQUE QUESTIONS ---
     const mcqsQuestions = [...new Set(mcqsData.map(i => i.question_id))];
     const tfQuestions = [...new Set(tfData.map(i => i.question_id))];
 
-    // Group answers by user
+    // --- GROUP USER ANSWERS ---
     const grouped = {};
 
     mcqsData.forEach(i => {
-        if (!grouped[i.user_id]) grouped[i.user_id] = { user_name: i.user_name, mcqs: {}, tf: {}, comment: "" };
+        if (!grouped[i.user_id]) grouped[i.user_id] = { user_name: i.user_name, mcqs: {}, tf: {}, comment: "", result: "" };
         grouped[i.user_id].mcqs[i.question_id] = i.selected_answer;
     });
 
     tfData.forEach(i => {
-        if (!grouped[i.user_id]) grouped[i.user_id] = { user_name: i.user_name, mcqs: {}, tf: {}, comment: "" };
+        if (!grouped[i.user_id]) grouped[i.user_id] = { user_name: i.user_name, mcqs: {}, tf: {}, comment: "", result: "" };
         grouped[i.user_id].tf[i.question_id] = i.selected_answer;
     });
 
     commentData.forEach(i => {
-        if (!grouped[i.user_id]) grouped[i.user_id] = { user_name: i.user_name, mcqs: {}, tf: {}, comment: "" };
+        if (!grouped[i.user_id]) grouped[i.user_id] = { user_name: i.user_name, mcqs: {}, tf: {}, comment: "", result: "" };
         grouped[i.user_id].comment = i.comments;
     });
 
-    // Beautiful UI
+    // --- CALCULATE PASS/FAIL ---
+    Object.entries(grouped).forEach(([uid, user]) => {
+        let total = 0;
+        let correct = 0;
+
+        mcqsQuestions.forEach(qid => {
+            total++;
+            String(user.mcqs[qid]).trim().toLowerCase() === String(correctMcqMap[qid]).trim().toLowerCase()
+        });
+
+        tfQuestions.forEach(qid => {
+            total++;
+            // user.tf[qid] string ho sakta hai "true"/"false" → convert to boolean
+            const userAnswer = (user.tf[qid] === "true" || user.tf[qid] === true); // convert string "true" to boolean
+            if (userAnswer === correctTFMap[qid]) correct++;
+        });
+
+        user.result = correct >= total / 2 ? "Pass" : "Fail"; // 50% pass criteria
+    });
+
+    // --- UPDATE CARD COUNT ---
+    const userAnswerCount = document.getElementById("userAnswerCount");
+    const userCount = Object.keys(grouped).length;
+    if (userAnswerCount) userAnswerCount.innerText = userCount;
+
+    // --- BUILD TABLE ---
     let html = `
     <div class="backdrop-blur-xl bg-white/10 border border-white/10 shadow-2xl rounded-2xl p-7">
         <h1 class="text-3xl font-bold mb-6">User Submitted Answers</h1>
-
         <div class="overflow-x-auto rounded-xl border border-white/10 shadow-xl">
             <table class="w-full text-sm">
                 <thead class="bg-white/20 text-gray-200">
@@ -471,7 +422,9 @@ async function loadMergedData() {
     mcqsQuestions.forEach((qid, i) => html += `<th class="px-4 py-3 font-bold">MCQ ${i + 1}</th>`);
     tfQuestions.forEach((qid, i) => html += `<th class="px-4 py-3 font-bold">T/F ${i + 1}</th>`);
 
-    html += `<th class="px-4 py-3 font-bold">Comment</th></tr></thead><tbody>`;
+    html += `<th class="px-4 py-3 font-bold">Comment</th>
+             <th class="px-4 py-3 font-bold">Result</th>
+             </tr></thead><tbody>`;
 
     Object.entries(grouped).forEach(([uid, user]) => {
         html += `
@@ -481,21 +434,17 @@ async function loadMergedData() {
 
         mcqsQuestions.forEach(qid => html += `<td class="px-4 py-3">${user.mcqs[qid] || "-"}</td>`);
         tfQuestions.forEach(qid => html += `<td class="px-4 py-3">${user.tf[qid] || "-"}</td>`);
-        html += `<td class="px-4 py-3">${user.comment || "-"}</td></tr>`;
+
+        html += `<td class="px-4 py-3">${user.comment || "-"}</td>`;
+        html += `<td class="px-4 py-3 font-bold "><button class="${user.result === "Pass" ? "text-green-500 hover:text-white hover:bg-green-500 border border-green-500" : "text-red-500 hover:text-white hover:bg-red-500 border border-red-500"} rounded-xl px-5 py-2">${user.result}</button></td>`;
+        html += `</tr>`;
     });
 
     html += `</tbody></table></div></div>`;
-
     userData.innerHTML = html;
 }
 
 loadMergedData();
-
-
-
-
-
-
 
 
 // ======== Show ALl USERS (Beautiful UI) ========
@@ -605,21 +554,18 @@ try {
     console.log(error, "count error");
 }
 
-
+// =====show 5 user in  admin page======
 try {
     const userTable = document.getElementById("userTable")
     const { data, error } = await client
         .from("AllUserData")
         .select("*")
-        .limit(5); // top 5 users
-
+        .limit(5);
     if (error) {
         console.log("Error fetching users:", error);
-      
     }
 
-    // ===== TABLE =====
-    userTable.innerHTML = ''; // clear previous rows
+    userTable.innerHTML = '';
     data.forEach(user => {
         userTable.innerHTML += `
             <tr class="hover:bg-gray-200">
@@ -632,5 +578,62 @@ try {
 
 } catch (error) {
     console.log(error, "show 5 users erroe");
-
 }
+
+// =========ALL MCQS COUNT========
+try {
+
+    async function mcqsCountData() {
+        const mcqsCount = document.getElementById("mcqsCount");
+
+        const { count, error } = await client
+            .from("MultipleQuestion")
+            .select("*", { count: "exact", head: true });
+
+        if (error) {
+            console.log("Error fetching count:", error);
+            return;
+        }
+
+        console.log("Total Users:", count);
+        mcqsCount.textContent = count;
+    }
+    mcqsCountData()
+
+} catch (error) {
+    console.log(error, "count error");
+}
+
+
+// =========ALL TRUE/FALSE COUNT========
+try {
+
+    async function tfCountData() {
+        const tfCount = document.getElementById("tfCount");
+
+        const { count, error } = await client
+            .from("Ture-False")
+            .select("*", { count: "exact", head: true });
+
+        if (error) {
+            console.log("Error fetching count:", error);
+            return;
+        }
+
+        console.log("Total Users:", count);
+        tfCount.textContent = count;
+    }
+    tfCountData()
+
+} catch (error) {
+    console.log(error, "count error");
+}
+
+// ==========ADMIN LOGOUT=========
+
+const adminLogout = document.getElementById("adminLogout")
+
+adminLogout && adminLogout.addEventListener("click", () => {
+    alert("Logout Successfully!")
+    window.location.href = "login.html"
+})

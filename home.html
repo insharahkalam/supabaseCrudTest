@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -12,7 +12,7 @@
 
 <body class="bg-[#0b1a2d] text-white min-h-screen">
 
-    <!-- Navbar -->
+   
     <nav class="shadow-lg w-full z-20 top-0 start-0 border-b border-gray-700">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="#" class="flex items-center space-x-3">
@@ -60,4 +60,91 @@
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
     <script type="module" src="app.js"></script>
 </body>
-</html
+</html -->
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Survey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-[#07121F] text-white min-h-screen">
+
+    <!-- Navbar -->
+    <nav class="w-full border-b border-white/10 backdrop-blur bg-[#0d1b2e]/70 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+
+            <!-- Logo -->
+            <h1 class="text-2xl font-bold tracking-wide">Covid Survey</h1>
+
+            <!-- Mobile Toggle -->
+            <button id="menuToggle" class="md:hidden p-2 rounded-lg hover:bg-white/10 transition">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+
+            <!-- Links -->
+            <ul id="navMenu"
+                class="hidden md:flex gap-10 text-lg font-medium absolute md:static top-16 right-4 md:right-auto bg-[#0d1b2e] md:bg-transparent px-6 md:px-0 py-4 md:py-0 rounded-xl shadow md:shadow-none border md:border-none border-white/10">
+
+                <li><a href="#" class="hover:text-blue-400 transition">Home</a></li>
+                <li><a href="#" class="hover:text-blue-400 transition">About</a></li>
+                <li><a href="#" class="hover:text-blue-400 transition">Blog</a></li>
+                <li><a href="#" class="hover:text-blue-400 transition">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <script>
+        // toggle navigation mobile
+        document.getElementById("menuToggle").addEventListener("click", () => {
+            document.getElementById("navMenu").classList.toggle("hidden");
+        });
+    </script>
+
+    <!-- Timer Card -->
+    <div
+        class="max-w-5xl mx-auto mt-8 bg-[#0d1b2e] border border-white/10 rounded-2xl p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3 shadow-lg">
+        <p class="text-lg font-semibold">At the end of the time, you will be auto logged out</p>
+          <p id="timer" class="text-white text-xl font-semibold"></p>
+    </div>
+
+    <!-- Survey Content -->
+    <div class="max-w-5xl mx-auto my-10 px-4 space-y-8">
+
+        <!-- MCQs -->
+        <div id="showQuestion" class="bg-[#0d1b2e] border border-white/10 p-6 rounded-xl shadow"></div>
+
+        <!-- True/False -->
+        <div id="showtruefalseQuestion"
+            class="bg-[#0d1b2e] border border-white/10 p-6 rounded-xl shadow"></div>
+
+        <!-- Comments -->
+        <div id="showComment" class="bg-[#0d1b2e] border border-white/10 p-6 rounded-xl shadow"></div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="app.js"></script>
+
+</body>
+</html>
