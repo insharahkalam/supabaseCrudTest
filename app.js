@@ -162,29 +162,29 @@ try {
 }
 
 // ---------------- TIMER UI ----------------
-try {
-    let timeLeft = 10 * 60;
-    const timerBox = document.getElementById("timer");
+// try {
+//     let timeLeft = 10 * 60;
+//     const timerBox = document.getElementById("timer");
 
-    function updateTimer() {
-        let minutes = Math.floor(timeLeft / 60);
-        let seconds = timeLeft % 60;
+//     function updateTimer() {
+//         let minutes = Math.floor(timeLeft / 60);
+//         let seconds = timeLeft % 60;
 
-        timerBox.innerText = `Timer: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+//         timerBox.innerText = `Timer: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 
-        timeLeft--;
+//         timeLeft--;
 
-        if (timeLeft < 0) {
-            localStorage.removeItem("token");
-            window.location.href = "login.html";
-        }
-    }
+//         if (timeLeft < 0) {
+//             localStorage.removeItem("token");
+//             window.location.href = "login.html";
+//         }
+//     }
 
-    setInterval(updateTimer, 1000);
-} catch (error) {
-    console.log("timer error", error);
+//     setInterval(updateTimer, 1000);
+// } catch (error) {
+//     console.log("timer error", error);
 
-}
+// }
 
 // ================= FETCH AND DISPLAY QUESTIONS =================
 
@@ -499,18 +499,18 @@ loadMergedData();
 
 
 // ======== Show ALl USERS (Beautiful UI) ========
+try {
+    const showAllUsers = document.getElementById("showAllUsers");
 
-const showAllUsers = document.getElementById("showAllUsers");
+    const { data, error } = await client
+        .from('AllUserData')
+        .select('*')
 
-const { data, error } = await client
-    .from('AllUserData')
-    .select('*')
+    if (error) {
+        console.log("error in fetching users data", error);
+    } else {
 
-if (error) {
-    console.log("error in fetching users data", error);
-} else {
-
-    let tableHTML = `
+        let tableHTML = `
     <div class="backdrop-blur-xl bg-white/10 p-6 rounded-2xl shadow-2xl border border-white/10">
         <h1 class="text-2xl font-bold mb-5">All Registered Users</h1>
 
@@ -527,8 +527,8 @@ if (error) {
                 <tbody>
     `;
 
-    data.forEach(showuser => {
-        tableHTML += `
+        data.forEach(showuser => {
+            tableHTML += `
             <tr class="border-b border-gray-700/50  hover:bg-white/20 cursor-pointer transition">
                 <td class="text-start ps-8 py-3">${showuser.user_id}</td>
                 <td class="text-start ps-8 py-3">${showuser.email}</td>
@@ -541,16 +541,20 @@ if (error) {
                 </td>
             </tr>
         `;
-    });
+        });
 
-    tableHTML += `
+        tableHTML += `
                 </tbody>
             </table>
         </div>
     </div>
     `;
 
-    showAllUsers.innerHTML = tableHTML;
+        showAllUsers.innerHTML = tableHTML;
+    }
+
+} catch (error) {
+    console.log(error);
 }
 
 
@@ -575,3 +579,58 @@ async function deleteUser(userId) {
 }
 
 window.deleteUser = deleteUser;
+
+
+// =========ALL USER COUNT========
+try {
+
+    async function showUserCount() {
+        const userCount = document.getElementById("userCount");
+
+        const { count, error } = await client
+            .from("AllUserData")
+            .select("*", { count: "exact", head: true });
+
+        if (error) {
+            console.log("Error fetching count:", error);
+            return;
+        }
+
+        console.log("Total Users:", count);
+        userCount.textContent = count;
+    }
+    showUserCount()
+
+} catch (error) {
+    console.log(error, "count error");
+}
+
+
+try {
+    const userTable = document.getElementById("userTable")
+    const { data, error } = await client
+        .from("AllUserData")
+        .select("*")
+        .limit(5); // top 5 users
+
+    if (error) {
+        console.log("Error fetching users:", error);
+      
+    }
+
+    // ===== TABLE =====
+    userTable.innerHTML = ''; // clear previous rows
+    data.forEach(user => {
+        userTable.innerHTML += `
+            <tr class="hover:bg-gray-200">
+                <td class="p-2 border">${user.user_id}</td>
+                <td class="p-2 border">${user.name}</td>
+                <td class="p-2 border">${user.email}</td>
+            </tr>
+        `;
+    });
+
+} catch (error) {
+    console.log(error, "show 5 users erroe");
+
+}

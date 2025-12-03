@@ -5,121 +5,118 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard</title>
-
-  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body class="bg-gray-100">
 
+  <div class="md:hidden flex justify-between items-center bg-gray-900 text-white p-4">
+    <h2 class="text-xl font-extrabold uppercase">Covid Survey</h2>
+    <button id="menuBtn" class="text-3xl">&#9776;</button>
+  </div>
 
-
-  <!-- SIDEBAR -->
   <div class="flex">
-    <aside class="w-64 h-screen bg-gray-900 text-white p-5 hidden md:block">
-      <h2 class="text-2xl font-extrabold mb-6 text-start uppercase">Covid Survey</h2>
+
+    <aside id="sidebar"
+      class="w-64 h-[162vh] bg-gray-900 text-white p-5 fixed top-0 left-0 transform -translate-x-full md:static md:translate-x-0 transition-transform duration-300 z-50 overflow-y-auto">
+      <h2 class="text-4xl font-extrabold mb-6 uppercase">Covid Survey</h2>
 
       <nav class="space-y-2">
-        <a href="addQuestion.html" class="block py-2 px-3 rounded hover:bg-gray-700">Insert Questions</a>
-        <a href="userAnswer.html" class="block py-2 px-3 rounded hover:bg-gray-700">Users Answer</a>
-        <a href="allUser.html" class="block py-2 px-3 rounded hover:bg-gray-700">All Users</a>
-        <a href="profile.html" class="block py-2 px-3 rounded hover:bg-gray-700">Profile</a>
+        <a href="addQuestion.html" class="block py-2 px-3 rounded text-xl hover:bg-gray-700">Insert Questions</a>
+        <a href="userAnswer.html" class="block py-2 px-3 rounded text-xl hover:bg-gray-700">Users Answer</a>
+        <a href="allUser.html" class="block py-2 px-3 rounded text-xl hover:bg-gray-700">All Users</a>
+        <a href="setting.html" class="block py-2 px-3 rounded text-xl hover:bg-gray-700">Setting</a>
       </nav>
 
-      <button class="mt-10 w-full bg-red-500 py-2 rounded hover:bg-red-600">
+      <button class="mt-5 w-full bg-red-600 py-2 font-bold text-xl rounded hover:bg-red-700">
         Logout
       </button>
+
     </aside>
 
     <!-- MAIN CONTENT -->
-    <div class="flex-1 p-5">
+    <div class="flex-1 p-5 md:ml-0 ml-0 md:mt-0 mt-16">
 
       <div class="mb-12 bg-white p-10 rounded-2xl shadow-xl border border-gray-200">
-        <h2 class="text-4xl font-extrabold text-gray-800">Welcome, Admin 👋</h2>
+        <h2 class="text-5xl font-extrabold text-[#111827]">Welcome, Admin 👋</h2>
         <p class="text-gray-600 text-lg">
           Manage questions, users, survey responses and monitor Covid survey analytics.
         </p>
       </div>
 
-
       <!-- CARDS -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-6">
 
-        <div class="bg-white px-10 py-8 shadow rounded-3xl">
-          <h2 class="text-gray-500 font-extrabold text-3xl">Total Users</h2>
-          <p class="text-3xl mt-5 font-extrabold" id="userCount">0</p>
+        <div class="cursor-pointer bg-white p-6 shadow-xl transition-transform duration-500 hover:scale-105 rounded-3xl">
+          <h2 class="text-red-500 font-extrabold text-4xl  ">Total Users</h2>
+          <p class="text-4xl text-gray-500 mt-3 font-extrabold" id="userCount">0</p>
         </div>
 
-        <div class="bg-white p-6 shadow rounded-3xl">
-          <h2 class="text-gray-500 font-extrabold text-3xl">Total Questions</h2>
-          <p class="text-3xl mt-5 font-extrabold" id="orderCount">0</p>
+        <div class="cursor-pointer bg-white p-6 transition-transform duration-500 hover:scale-105 shadow-xl rounded-3xl">
+          <h2 class="text-yellow-400 font-extrabold text-4xl  ">MCQS Questions</h2>
+          <p class="text-4xl text-gray-500 mt-3 font-extrabold" id="mcqsCount">0</p>
+        </div>
+        <div class="cursor-pointer bg-white p-6 transition-transform duration-500 hover:scale-105 shadow-xl rounded-3xl">
+          <h2 class="text-yellow-400 font-extrabold text-4xl  ">T/F Questions</h2>
+          <p class="text-4xl text-gray-500 mt-3 font-extrabold" id="tfCount">0</p>
         </div>
 
-        <div class="bg-white p-6 shadow rounded-3xl shadow_xl">
-          <h2 class="text-gray-500 font-extrabold text-3xl">Total Answers</h2>
-          <p class="text-3xl mt-5 font-extrabold" id="revenueAmount">0</p>
+        <div class="cursor-pointer bg-white p-6 shadow-xl transition-transform duration-500 hover:scale-105 rounded-3xl">
+          <h2 class="text-green-500 font-extrabold   text-4xl">User Answer</h2>
+          <p class="text-4xl text-gray-500 mt-3 font-extrabold" id="revenueAmount">0</p>
         </div>
 
       </div>
+<!-- USERS TABLE -->
+<div class="bg-white p-6 shadow-xl rounded-2xl">
+  <h2 class="text-2xl md:text-4xl text-gray-900 font-bold mb-4">Users List</h2>
 
-      <!-- USERS TABLE -->
-      <div class="bg-white p-6 shadow rounded_3cl">
-        <h2 class="text-lg font-semibold mb-3">User List</h2>
+  <div class="overflow-x-auto rounded-lg border border-gray-200">
+    <table class="w-full text-sm md:text-base">
+      <thead class="bg-gray-300 text-gray-700">
+        <tr>
+          <th class="p-3 text-start font-semibold text-2xl">User_ID</th>
+          <th class="p-3 text-start font-semibold text-2xl">Name</th>
+          <th class="p-3 text-start font-semibold text-2xl">Email</th>
+        </tr>
+      </thead>
 
-        <table class="w-full border">
-          <thead class="bg-gray-200">
-            <tr>
-              <th class="p-2 border">ID</th>
-              <th class="p-2 border">Name</th>
-              <th class="p-2 border">Email</th>
-            </tr>
-          </thead>
+      <tbody id="userTable" class="divide-y divide-gray-200"></tbody>
+    </table>
+  </div>
 
-          <tbody id="userTable"></tbody>
-        </table>
-      </div>
+  <!-- VIEW ALL BUTTON -->
+  <div class="mt-4 flex justify-end">
+    <a href="allUser.html"
+       class="bg-[#111827] text-2xl text-white px-16 py-2 rounded-lg font-semibold shadow-md transition transform hover:scale-105">
+      View All
+    </a>
+  </div>
+</div>
+
 
     </div>
   </div>
 
-  <!-- JS -->
+
+
+
+
   <script>
-    // SAMPLE DATA
-    const users = [
-      { id: 1, name: "Ali Khan", email: "ali@example.com" },
-      { id: 2, name: "Ayesha Noor", email: "ayesha@example.com" },
-      { id: 3, name: "Hassan Raza", email: "hassan@example.com" },
-    ];
-
-    const orders = 45;
-    const revenue = 68950;
-
-    // Insert into DOM
-    document.getElementById("userCount").innerText = users.length;
-    document.getElementById("orderCount").innerText = orders;
-    document.getElementById("revenueAmount").innerText = "$" + revenue;
-
-    const tableBody = document.getElementById("userTable");
-
-    users.forEach((u) => {
-      tableBody.innerHTML += `
-        <tr>
-          <td class="border p-2">${u.id}</td>
-          <td class="border p-2">${u.name}</td>
-          <td class="border p-2">${u.email}</td>
-        </tr>
-      `;
-    });
-
-    // Mobile Sidebar Toggle
-    const sidebar = document.querySelector("aside");
     const menuBtn = document.getElementById("menuBtn");
+    const sidebar = document.getElementById("sidebar");
 
     menuBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("hidden");
+      sidebar.classList.toggle("-translate-x-full"); // show/hide sidebar
     });
+
   </script>
 
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="app.js"></script>
 </body>
 
 </html>

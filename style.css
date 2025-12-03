@@ -3,7 +3,7 @@
     src: url(./fonts/Valty\ DEMO.otf);
 }
 
-h1,a{
+h1,a,h2{
     font-family: "myFont";
 }
 
