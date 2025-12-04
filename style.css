@@ -3,11 +3,43 @@
     src: url(./fonts/Valty\ DEMO.otf);
 }
 
-h1,a,h2{
+h1,
+a,
+h2 {
     font-family: "myFont";
 }
 
-th{
+th {
     font-family: "myFont";
     font-size: 18px;
+}
+
+.swal2-confirm
+ {
+    color: white;
+    font-size: 20px;
+    display: inline-block;
+    background: transparent;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px  #265daa;
+    width: 150px;
+}
+.swal2-confirm:hover{
+    background-color: #091f3d;
+}
+
+
+.swal2-popup,
+.swal2-modal{
+    font-family: "myFont";
+    color: #f8f9fa !important;
+    background-color: #0d1b2e !important;
+    font-size: medium;
+    border-radius: 35px !important;
+    box-shadow: 0px 0px 10px #265daa;
+}
+
+.swal2-icon {
+    border: none !important;
+    box-shadow: none !important;
 }

@@ -8,75 +8,174 @@ console.log(client);
 
 // ==========signup========
 
-const username = document.getElementById("username")
-const email = document.getElementById("email")
-const password = document.getElementById("password")
-const btn = document.getElementById("btn")
+const username = document.getElementById("username");
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const btn = document.getElementById("btn");
 
 btn && btn.addEventListener("click", async (e) => {
-    e.preventDefault()
-    const { data, error } = await client.auth.signUp({
-        email: email.value,
-        password: password.value,
-        options: {
-            data: {
-                username: username.value
-            }
-        }
-    })
-    if (data) {
-        let userdata = data.user.user_metadata
-        console.log(userdata);
-        // ====insert user to supabase======
-        const { error } = await client
-            .from('AllUserData')
-            .insert({ user_id: data.user.id, name: userdata.username, email: userdata.email })
+    e.preventDefault();
 
-        if (error) {
-            console.log("user show error", error);
-        } else {
-            alert("User insert in supabase")
-        }
-        console.log(data);
-        username.value = ""
-        email.value = ""
-        password.value = ""
-        window.location.href = "home.html"
-    } else {
-        console.log("User register error!====", error);
+    const user = username.value.trim();
+    const mail = email.value.trim();
+    const pass = password.value.trim();
+
+    // ---------------- VALIDATION ----------------
+
+    // Username check
+    if (!user || !mail || !pass) {
+        Swal.fire({
+            title: "Error!",
+            text: "All Fields Required.",
+            icon: "error",
+        });
+        return;
     }
 
-})
+    // Email format check
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(mail)) {
+        Swal.fire({
+            title: "Invalid Email Format!",
+            text: "Please enter a valid email address.",
+            icon: "error",
+        });
+        return;
+    }
+
+    // Password length check
+    if (pass.length < 6) {
+        Swal.fire({
+            title: "Weak Password!",
+            text: "Password must be at least 6 characters or long.",
+            icon: "error",
+        });
+        return;
+    }
+
+    // ---------------- SUPABASE SIGNUP ----------------
+    const { data, error } = await client.auth.signUp({
+        email: mail,
+        password: pass,
+        options: {
+            data: {
+                username: user,
+            },
+        },
+    });
+
+    // Signup error
+    if (error) {
+        Swal.fire({
+            title: "Signup Failed!",
+            text: error.message,
+            icon: "error",
+        });
+        return;
+    }
+
+    // Signup success
+    if (data) {
+        const userdata = data.user.user_metadata;
+
+        // Insert into AllUserData table
+        const insertUser = await client
+            .from('AllUserData')
+            .insert({
+                user_id: data.user.id,
+                name: userdata.username,
+                email: userdata.email,
+            });
+
+        if (insertUser.error) {
+            console.log("Insert error", insertUser.error);
+        }
+
+        Swal.fire({
+            title: "Signup Successful!",
+            text: "Your account has been created.",
+            icon: "success",
+        }).then(() => {
+            username.value = "";
+            email.value = "";
+            password.value = "";
+            window.location.href = "login.html";
+        });
+    }
+});
 
 // =========LOGIN===========
 
-const loginEmail = document.getElementById("loginEmail")
-const loginPassword = document.getElementById("loginPassword")
-const loginBtn = document.getElementById("loginBtn")
+const loginEmail = document.getElementById("loginEmail");
+const loginPassword = document.getElementById("loginPassword");
+const loginBtn = document.getElementById("loginBtn");
 
 loginBtn && loginBtn.addEventListener("click", async (e) => {
-    e.preventDefault()
-    const { data, error } = await client.auth.signInWithPassword({
-        email: loginEmail.value,
-        password: loginPassword.value,
-    })
+    e.preventDefault();
 
-    if (loginEmail.value === "insharah@gmail.com" && loginPassword.value === "insharah123") {
-        window.location.href = "admin.html"
-    } else {
-        if (data) {
-            console.log(data);
+    const email = loginEmail.value.trim();
+    const password = loginPassword.value.trim();
 
-            alert("User logedin successfully!")
-            loginEmail.value = ""
-            loginPassword.value = ""
-            window.location.href = "home.html"
-        } else {
-            console.log("User login error!====", error);
-
-        }
+    // ----------- EMPTY FIELDS CHECK -----------
+    if (!email || !password) {
+        Swal.fire({
+            title: "Missing Info!",
+            text: "Both Email And password required.",
+            icon: "warning",
+        });
+        return;
     }
-})
+
+    // ----------- PASSWORD LENGTH CHECK -----------
+    if (password.length < 6) {
+        Swal.fire({
+            title: "Weak Password!",
+            text: "Password must be at least 6 characters or long.",
+            icon: "error",
+        });
+        return;
+    }
+
+    // ----------- ADMIN CHECK -----------
+    if (email === "insharah@gmail.com" && password === "insharah123") {
+        Swal.fire({
+            title: "Admin Login Successfully!",
+            icon: "success",
+        }).then(() => {
+            window.location.href = "admin.html";
+        });
+        return;
+    }
+
+    // ----------- SUPABASE LOGIN TRY -----------
+    const { data, error } = await client.auth.signInWithPassword({
+        email: email,
+        password: password,
+    });
+
+    // ----------- WRONG LOGIN (Supabase Error) -----------
+    if (error) {
+        Swal.fire({
+            title: "Login Failed!",
+            text: "Invalid Login Credentials.",
+            icon: "error",
+        });
+        return;
+    }
+
+    // ----------- NORMAL USER LOGIN SUCCESS -----------
+    Swal.fire({
+        title: "Login Successful!",
+        text: "Welcome! You’re successfully logged in.",
+        icon: "success",
+    }).then(() => {
+        loginEmail.value = "";
+        loginPassword.value = "";
+        window.location.href = "home.html";
+    });
+
+});
+
 
 // ===========MLTIPLE CHOOSE======
 
@@ -190,9 +289,9 @@ try {
 
 async function loadMCQS() {
     const { data } = await client.from('MultipleQuestion').select("*");
-    data.forEach( q => {
-        console.log( q,"showdata");
-        
+    data.forEach(q => {
+        console.log(q, "showdata");
+
         showQuestion.innerHTML += `
             <div class="bg-[#10233d] p-6 md:p-8 rounded-2xl shadow-xl mb-6">
                 <p class="text-xl font-bold text-[#b7d1fd]"> ${q.Question}</p>
