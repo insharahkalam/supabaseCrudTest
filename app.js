@@ -177,6 +177,7 @@ loginBtn && loginBtn.addEventListener("click", async (e) => {
 });
 
 
+
 // ===========MLTIPLE CHOOSE======
 
 const multipleQuestions = document.getElementById("multipleQuestions")
@@ -197,7 +198,11 @@ saveBtn && saveBtn.addEventListener("click", async (e) => {
     if (error) {
         console.log("multiple error", error);
     } else {
-        alert("data insert seccessfully!");
+        Swal.fire({
+            title: "Success!",
+            text: "MCQS Added Successfully!",
+            icon: "success",
+        })
         multipleQuestions.value = ""
         optionA.value = ""
         optionB.value = ""
@@ -222,7 +227,11 @@ saveBtn1 && saveBtn1.addEventListener("click", async (e) => {
     if (error) {
         console.log(error, "true false error");
     } else {
-        alert("true false added successfully!!")
+         Swal.fire({
+            title: "Success!",
+            text: "True/False Added Successfully!",
+            icon: "success",
+        })
         truefalseQuestion.value = ""
         tfCorrect.value = ""
     }
@@ -232,7 +241,6 @@ saveBtn1 && saveBtn1.addEventListener("click", async (e) => {
 
 try {
     let step = 1;
-
     const showQuestion = document.getElementById("showQuestion");
     const showtruefalseQuestion = document.getElementById("showtruefalseQuestion");
     const showComment = document.getElementById("showComment");
@@ -252,7 +260,6 @@ try {
             showtruefalseQuestion.style.display = step === 2 ? "block" : "none";
             showComment.style.display = step === 3 ? "block" : "none";
         }
-
         window.goToStep = goToStep;
     }
 
