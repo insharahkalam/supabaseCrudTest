@@ -531,8 +531,14 @@ async function loadMergedData() {
 
         mcqsQuestions.forEach(qid => {
             total++;
-            String(user.mcqs[qid]).trim().toLowerCase() === String(correctMcqMap[qid]).trim().toLowerCase()
+            if (
+                String(user.mcqs[qid]).trim().toLowerCase() ===
+                String(correctMcqMap[qid]).trim().toLowerCase()
+            ) {
+                correct++;
+            }
         });
+
 
         tfQuestions.forEach(qid => {
             total++;
