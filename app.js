@@ -227,7 +227,7 @@ saveBtn1 && saveBtn1.addEventListener("click", async (e) => {
     if (error) {
         console.log(error, "true false error");
     } else {
-         Swal.fire({
+        Swal.fire({
             title: "Success!",
             text: "True/False Added Successfully!",
             icon: "success",
@@ -304,7 +304,7 @@ async function loadMCQS() {
                 <p class="text-xl font-bold text-[#b7d1fd]"> ${q.Question}</p>
                 ${['Option1', 'Option2', 'Option3', 'Option4'].map(opt => `
                     <label class="flex items-center mb-3 cursor-pointer hover:bg-[#153052] p-3 rounded-lg transition-colors">
-                        <input type="radio" name="mcq-${q.id}" value="${q[opt]}" class="mr-3 text-black">
+                        <input type="radio" name="mcq-${q.id}" value="${q[opt]}"  class="mr-3 w-5 h-5  text-black">
                         <span class="text-white">${q[opt]}</span>
                     </label>
                 `).join('')}
@@ -354,7 +354,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window.saveComment = async function () {
     const commentText = document.getElementById("dataComment").value.trim();
-    if (!commentText) return alert("Please write a comment!");
+    if (!commentText) return Swal.fire({
+        icon: 'warning',
+        title: 'Required!',
+        text: 'Enter your Comment first!',
+        confirmButtonText: 'OK',
+    });;
 
     const { data: { user } } = await client.auth.getUser();
     if (!user) return alert("You must be logged in!");
@@ -389,10 +394,24 @@ async function submitMcqs() {
         });
     });
 
-    if (!allSelected) return alert("Please answer all MCQS!");
+    if (!allSelected) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Required!',
+            text: 'Complete all questions first!',
+            confirmButtonText: 'OK',
+        });
+        return;
+    }
+    ;
 
     const { error } = await client.from('Mcqs_selected_answer').insert(answersToInsert);
-    if (error) return alert("Error saving MCQS answers!");
+    if (error) return Swal.fire({
+        icon: 'error',
+        title: 'Error!!',
+        text: 'Error in saving answer.',
+        confirmButtonText: 'OK',
+    });;
 
     // Go to step 2
     goToStep(2);
@@ -420,10 +439,26 @@ async function submitTFAnswer() {
         });
     });
 
-    if (!allSelected) return alert("Please answer all True/False questions!");
+
+    if (!allSelected) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Required!',
+            text: 'Complete all questions first!',
+            confirmButtonText: 'OK',
+        });
+        return;
+    }
+    ;
+
 
     const { error } = await client.from('True-false_Answer').insert(answersToInsert);
-    if (error) return alert("Error saving True/False answers!");
+    if (error) return Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Error in saving answer.',
+        confirmButtonText: 'OK',
+    });
 
     // Go to step 3
     goToStep(3);
@@ -625,11 +660,19 @@ async function deleteUser(userId) {
 
     if (error) {
         console.log("Delete error:", error);
-        alert("Delete failed");
+        Swal.fire({
+            title: "User Deleted Error!",
+            text: "Somethings went wrong while deleting user.",
+            icon: "error",
+        })
         return;
     }
 
-    alert("User deleted successfully!");
+    Swal.fire({
+        title: "Success",
+        text: "User Deleted Successfully!",
+        icon: "success",
+    })
     location.reload();
 }
 
@@ -736,10 +779,16 @@ try {
 }
 
 // ==========ADMIN LOGOUT=========
-
 const adminLogout = document.getElementById("adminLogout")
 
 adminLogout && adminLogout.addEventListener("click", () => {
-    alert("Logout Successfully!")
-    window.location.href = "login.html"
-})
+    Swal.fire({
+        title: "Success",
+        text: "Logout Successfully!",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false
+    }).then(() => {
+        window.location.href = "login.html"
+    });
+});
