@@ -524,30 +524,51 @@ async function loadMergedData() {
         grouped[i.user_id].comment = i.comments;
     });
 
+  
     // --- CALCULATE PASS/FAIL ---
     Object.entries(grouped).forEach(([uid, user]) => {
         let total = 0;
         let correct = 0;
 
+        // --- MCQs ---
         mcqsQuestions.forEach(qid => {
-            total++;
-            if (
-                String(user.mcqs[qid]).trim().toLowerCase() ===
-                String(correctMcqMap[qid]).trim().toLowerCase()
-            ) {
-                correct++;
+            const userAns = user.mcqs[qid];
+            const correctAns = correctMcqMap[qid];
+
+            if (userAns !== undefined && userAns !== null && userAns !== "") {
+                total++;
+                if (
+                    String(userAns).trim().toLowerCase() ===
+                    String(correctAns).trim().toLowerCase()
+                ) {
+                    correct++;
+                }
             }
         });
 
-
+        // --- TRUE/FALSE ---
         tfQuestions.forEach(qid => {
-            total++;
-            // user.tf[qid] string ho sakta hai "true"/"false" → convert to boolean
-            const userAnswer = (user.tf[qid] === "true" || user.tf[qid] === true); // convert string "true" to boolean
-            if (userAnswer === correctTFMap[qid]) correct++;
+            const userAns = user.tf[qid];
+            const correctAns = correctTFMap[qid];
+
+            if (userAns !== undefined && userAns !== null && userAns !== "") {
+                total++;
+
+                const userBool =
+                    userAns === "true" || userAns === true ||
+                    userAns === "1" || userAns === 1;
+
+                const correctBool =
+                    correctAns === "true" || correctAns === true ||
+                    correctAns === "1" || correctAns === 1;
+
+                if (userBool === correctBool) {
+                    correct++;
+                }
+            }
         });
 
-        user.result = correct >= total / 2 ? "Pass" : "Fail"; // 50% pass criteria
+        user.result = correct >= total / 2 ? "Pass" : "Fail";
     });
 
     // --- UPDATE CARD COUNT ---
