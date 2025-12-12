@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COVID-19 Survey</title>
+    <link rel="stylesheet" href="style.css">
 
     <style>
         body {
             margin: 0;
             padding: 0;
-            font-family: Arial;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-                        url("https://images.unsplash.com/photo-1584036561566-baf8f5f1b144") 
-                        no-repeat center/cover;
+            font-family: "myFont";
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url("https://media.springernature.com/m685/springer-static/image/art%3A10.1038%2Fs41404-020-0589-z/MediaObjects/41404_2020_589_Fig1_HTML.jpg") no-repeat center/cover;
             height: 100vh;
             display: flex;
             align-items: center;
@@ -22,31 +23,32 @@
 
         .container {
             text-align: center;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             padding: 40px;
-            border-radius: 12px;
+            border-radius: 30px;
             width: 90%;
             max-width: 480px;
-            backdrop-filter: blur(6px);
+            backdrop-filter: blur(5px);
         }
 
         h1 {
             margin-bottom: 10px;
-            font-size: 32px;
+            font-size: 40px;
             font-weight: bold;
         }
 
         p {
-            font-size: 16px;
+            font-size: 26px;
             opacity: 0.9;
             margin-bottom: 25px;
         }
 
         .start-btn {
-            background: #00d4ff;
-            color: black;
+            background: #326f82;
+            color: white;
             padding: 14px 32px;
-            font-size: 18px;
+            font-size: 26px;
+            font-family: "myFont";
             font-weight: bold;
             border: none;
             border-radius: 30px;
@@ -55,11 +57,12 @@
         }
 
         .start-btn:hover {
-            background: white;
+            background: #286476;
             transform: scale(1.05);
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
@@ -76,4 +79,5 @@
     </script>
 
 </body>
+
 </html>
