@@ -1,18 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thank You</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "myFont";
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url("https://media.springernature.com/m685/springer-static/image/art%3A10.1038%2Fs41404-020-0589-z/MediaObjects/41404_2020_589_Fig1_HTML.jpg") no-repeat center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 30px;
+            width: 90%;
+            max-width: 480px;
+            backdrop-filter: blur(5px);
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 24px;
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+
+        a {
+            background: #326f82;
+            color: white;
+            padding: 14px 32px;
+            font-size: 24px;
+            font-family: "myFont";
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        a:hover {
+            background: #286476;
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 
-<body class="bg-[#0b1a2d] h-screen flex items-center justify-center">
-    <div class="bg-[#132a47] p-10 rounded-xl shadow-lg text-center text-white">
-        <h1 class="text-3xl font-bold mb-4">Thank You!</h1>
-        <p class="text-lg">Your feedback has been submitted successfully.</p>
-        <a class="text-blue-600 hover:underline pt-5" href="index.html">Start again?</a>
+<body>
+
+    <div class="container">
+        <h1>Thank You!</h1>
+        <p>Your feedback has been submitted successfully.</p>
+
+        <a href="index.html">Start Again</a>
     </div>
+
+
 
 
     <script type="module" src="app.js"></script>

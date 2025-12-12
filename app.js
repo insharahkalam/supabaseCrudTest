@@ -524,7 +524,7 @@ async function loadMergedData() {
         grouped[i.user_id].comment = i.comments;
     });
 
-  
+
     // --- CALCULATE PASS/FAIL ---
     Object.entries(grouped).forEach(([uid, user]) => {
         let total = 0;
